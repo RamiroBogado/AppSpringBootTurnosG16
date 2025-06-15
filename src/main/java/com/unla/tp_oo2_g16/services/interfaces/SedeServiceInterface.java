@@ -1,0 +1,17 @@
+package com.unla.tp_oo2_g16.services.interfaces;
+
+
+import java.util.List;
+import java.util.Set;
+
+import com.unla.tp_oo2_g16.models.entities.Sede;
+
+public interface SedeServiceInterface {
+
+	List<Sede> findAll();
+	Set<Sede> findAllSet();
+    Sede findById(Integer id);
+    Sede save(Sede ubicacion);
+    void deleteById(Integer id);
+
+}
