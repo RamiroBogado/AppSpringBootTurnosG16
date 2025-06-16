@@ -41,7 +41,6 @@ public class TurnoController {
 	private SedeServiceInterface sedeService;
 	@Autowired
 	private DisponibilidadesServiceInterface disponibilidadesService;
-
 	@Autowired
 	private TurnoServiceInterface turnoService;
 	@Autowired
@@ -133,12 +132,14 @@ public class TurnoController {
 	    // Redirigir a la vista de confirmación
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.CONFRIMACION_TURNO);
 	    mav.addObject("sedeSeleccionada", sede);
+	    mav.addObject("CoidgoTurno", turno.getCodigoTurno());
 	    mav.addObject("turno", turno);
 	    return mav;
 	}
 
 	@PostMapping("/guardar-turno")
 	public ModelAndView guardarTurno(@RequestParam int servicioId,
+									@RequestParam String CoidgoTurno,
 	                                @RequestParam int sedeId,
 	                                @RequestParam String fecha,
 	                                @RequestParam String horario,
@@ -153,7 +154,7 @@ public class TurnoController {
 	    Cliente cliente = clienteService.findByEmail(principal.getName());
 
 	    Turno turno = new Turno(cliente, servicio, fechaHora);
-
+	    turno.setCodigoTurno(CoidgoTurno);
 	    turnoService.save(turno);
 	    	    
 	    disponibilidadesService.ocuparDisponibilidad(servicioId, fechaParsed, horaParsed);

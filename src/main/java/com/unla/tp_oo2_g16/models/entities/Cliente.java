@@ -13,8 +13,8 @@ import jakarta.persistence.*;
 @SuperBuilder
 public class Cliente extends Persona {
          
-    @Column(name = "cuil", unique = true, length = 30)
-    private int cuil;
+    @Column(name = "cuil", nullable = false, unique = true, length = 30)
+    private Long cuil;
 
     @Column(name = "es_concurrente")
     private boolean esConcurrente;
