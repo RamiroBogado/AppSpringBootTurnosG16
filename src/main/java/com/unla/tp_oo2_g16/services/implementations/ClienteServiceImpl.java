@@ -51,6 +51,27 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
 
         return clienteRepository.save(cliente);
     }
+    
+    @Override
+    public Cliente editado(Cliente cliente) {
+        if (cliente.getIdPersona() != null) {
+            Cliente clienteOriginal = clienteRepository.findById(cliente.getIdPersona()).orElseThrow();
+
+            // Actualizás solo los campos editables
+            clienteOriginal.setNombre(cliente.getNombre());
+            clienteOriginal.setApellido(cliente.getApellido());
+            clienteOriginal.setDni(cliente.getDni());
+            clienteOriginal.setCuil(cliente.getCuil());
+            clienteOriginal.setEsConcurrente(cliente.isEsConcurrente());
+
+            // El user ya está asociado y no se toca
+
+            return clienteRepository.save(clienteOriginal);
+        }
+
+        // Es un nuevo cliente
+        return clienteRepository.save(cliente);
+    }
 
     
     @Override
@@ -80,4 +101,10 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     public boolean existsByCuil(Long cuil) {
         return clienteRepository.existsByCuil(cuil);
     }
+    
+    @Override
+    public List<Cliente> buscarPorNombreODniOCuil(String filtro) {
+        return clienteRepository.buscarPorFiltro(filtro);
+    }
+
 }

@@ -20,8 +20,12 @@ public class ViewRouteHelper {
 	public static final String AUTH_INDEX = "authentication/index";
 	
 	/**** ADMIN ****/
-
 	public static final String ADMIN_PANEL = "admin/admin-panel";
+	
+	/**** CLIENTE ****/
+	public static final String CLIENTE_INDEX = "cliente/index";
+	public static final String CLIENTE_FORM = "cliente/form";
+	public static final String CLIENTE_REGISTER = "cliente/register";
 
 }
 

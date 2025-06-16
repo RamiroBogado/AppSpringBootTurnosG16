@@ -17,4 +17,9 @@ public interface ClienteServiceInterface {
     public boolean existsByDni(String dni);
 
     public boolean existsByCuil(Long cuil);
+    
+    List<Cliente> buscarPorNombreODniOCuil(String filtro);
+    
+	Cliente editado(Cliente cliente);
+
 }
