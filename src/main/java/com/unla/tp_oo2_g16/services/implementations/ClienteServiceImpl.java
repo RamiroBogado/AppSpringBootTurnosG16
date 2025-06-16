@@ -72,4 +72,12 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     public Cliente findByEmail(String email) {
         return clienteRepository.findByUser_EmailUser(email);
     }
+    
+    public boolean existsByDni(String dni) {
+        return clienteRepository.existsByDni(dni);
+    }
+
+    public boolean existsByCuil(Long cuil) {
+        return clienteRepository.existsByCuil(cuil);
+    }
 }

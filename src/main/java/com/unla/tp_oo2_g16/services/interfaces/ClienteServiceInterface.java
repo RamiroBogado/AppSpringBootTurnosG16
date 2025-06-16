@@ -13,4 +13,8 @@ public interface ClienteServiceInterface {
     List<Cliente> findClientesConcurrentes();
     
     Cliente findByEmail(String email);
+    
+    public boolean existsByDni(String dni);
+
+    public boolean existsByCuil(Long cuil);
 }

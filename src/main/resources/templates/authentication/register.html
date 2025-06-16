@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmar Turno</title>
+    <title>Registro de Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -44,43 +44,57 @@
         .btn-primary:hover {
             background-color: #217dbb;
         }
+        .text-danger {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="container container-box">
-    <!-- Importante: usar th:object -->
     <form th:action="@{/auth/guardar-user}" th:object="${cliente}" method="post">
         <div class="section-title"><h1 class="text-center">DATOS PERSONALES</h1></div>
 
+        <!-- Email -->
         <div class="mb-3">
             <label class="form-label">Correo Electrónico (USUARIO)</label>
             <input type="email" class="form-control" th:field="*{user.emailUser}" placeholder="Ej: aaa123@gmail.com" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('user.emailUser')}" th:errors="*{user.emailUser}"></div>
         </div>
-        
+
+        <!-- Contraseña -->
         <div class="mb-3">
             <label class="form-label">Contraseña</label>
             <input type="password" class="form-control" th:field="*{user.passwordUser}" placeholder="Ej: xxxxxxxxxx" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('user.passwordUser')}" th:errors="*{user.passwordUser}"></div>
         </div>
-        
+
+        <!-- Nombre -->
         <div class="mb-3">
             <label class="form-label">Nombre(s)</label>
             <input type="text" class="form-control" th:field="*{nombre}" placeholder="Ej: Juan Carlos" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
         </div>
-        
+
+        <!-- Apellido -->
         <div class="mb-3">
             <label class="form-label">Apellido(s)</label>
             <input type="text" class="form-control" th:field="*{apellido}" placeholder="Ej: Pérez" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
         </div>
-        
+
+        <!-- DNI -->
         <div class="mb-3">
             <label class="form-label">DNI</label>
             <input type="text" class="form-control" th:field="*{dni}" placeholder="Ej: 11222333" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
         </div>
-        
+
+        <!-- CUIL -->
         <div class="mb-3">
             <label class="form-label">CUIL</label>
-            <input type="text" class="form-control" th:field="*{cuil}" placeholder="Ej: 81122233388" required>
+            <input type="text" class="form-control" th:field="*{cuil}" placeholder="Ej: 20421136603" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('cuil')}" th:errors="*{cuil}"></div>
         </div>
 
         <!-- Botones -->
@@ -89,6 +103,9 @@
             <button type="submit" class="btn btn-primary btn-lg">Siguiente</button>
         </div>
     </form>
+	
+	<div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
 </div>
 
 <!-- Bootstrap JS -->

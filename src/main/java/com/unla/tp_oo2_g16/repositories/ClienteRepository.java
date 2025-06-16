@@ -13,4 +13,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     Cliente findByDni(String dni);
     List<Cliente> findByesConcurrente(boolean esConcurrente);
     Cliente findByUser_EmailUser(String emailUser);
+    
+    boolean existsByDni(String dni);
+    boolean existsByCuil(Long cuil);
 }

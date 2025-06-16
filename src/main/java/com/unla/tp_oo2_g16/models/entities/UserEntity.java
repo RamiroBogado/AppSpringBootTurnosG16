@@ -2,7 +2,7 @@ package com.unla.tp_oo2_g16.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -33,13 +33,13 @@ public class UserEntity implements UserDetails {
     @Setter(AccessLevel.NONE)
     private Integer idUserEntity;
 
-    @NotBlank
-    @Email
-    @Column(name = "email_user", nullable = false, length = 80, unique = true)
+    @Email(message = "Debe ingresar un email válido")
+    @NotBlank(message = "El email es obligatorio")
+    @Column(unique = true)
     private String emailUser;
 
-    @NotBlank
-    @Column(name = "password_user", nullable = false)
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String passwordUser;
 
     @Column(name = "active_user", nullable = false)
@@ -53,7 +53,6 @@ public class UserEntity implements UserDetails {
     @Column(name = "update_at_user")
     private Timestamp updateAt;
 
-    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
@@ -68,7 +67,7 @@ public class UserEntity implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getNombre().getPrefixedName()))
                 .collect(Collectors.toSet());
     }
-
+    
     @Override
     public String getUsername() {
         return this.emailUser;

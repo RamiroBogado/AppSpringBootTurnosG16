@@ -27,5 +27,9 @@ public class UserServiceImp implements UserDetailsService {
                 () -> new UsernameNotFoundException(MessageFormat.format("User with email {0} not found", emailUser))
         );
     }
+    
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmailUser(email);
+    }
 
 }
