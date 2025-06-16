@@ -79,7 +79,7 @@
                 <select class="form-select" id="servicioId" name="servicioId" required>
                     <option value="" disabled selected>-- Seleccione --</option>
                     <option th:each="s : ${servicios}" 
-                            th:value="${s.id}" 
+                            th:value="${s.idServicio}" 
                             th:text="${s.nombre}">
                     </option>
                 </select>
