@@ -1,8 +1,7 @@
 package com.unla.tp_oo2_g16.helpers;
 
 public class ViewRouteHelper {
-	/**** Views ****/
-
+	/**** TURNO ****/
 	public final static String SOLICITAR_TURNO = 				"/turno/solicitar-turno";	
 	public final static String SELECCIONARSERVICIO_TURNO = 		"/turno/seleccionarServicio-turno";
 	public final static String SELECCIONARSEDE_TURNO = 			"/turno/seleccionarSede-turno";
@@ -19,8 +18,10 @@ public class ViewRouteHelper {
 	public static final String AUTH_LOGIN = "authentication/login";
 	public static final String AUTH_RESGISTER = "authentication/register";
 	public static final String AUTH_INDEX = "authentication/index";
+	
+	/**** ADMIN ****/
 
-
+	public static final String ADMIN_PANEL = "admin/admin-panel";
 
 }
 

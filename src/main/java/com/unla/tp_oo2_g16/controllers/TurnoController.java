@@ -54,13 +54,13 @@ public class TurnoController {
 	 * PRIMERA VISTA: botón "Solicitar Turno" URL: GET /index
 	 */
 	@GetMapping("/index")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView mostrarInicio() {		
 		return new ModelAndView(ViewRouteHelper.SOLICITAR_TURNO);
 	}
 		
 	@GetMapping("/seleccionar-servicio")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarServicio() {
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.SELECCIONARSERVICIO_TURNO);
 	    mav.addObject("servicios", servicioService.findAll());
@@ -68,7 +68,7 @@ public class TurnoController {
 	}
 	
 	@PostMapping("/seleccionar-sede")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarSede(@RequestParam int servicioId) {
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.SELECCIONARSEDE_TURNO);
 	    
@@ -81,7 +81,7 @@ public class TurnoController {
 
 
 	@PostMapping("/seleccionar-fecha")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarFecha(@RequestParam int servicioId, @RequestParam int sedeId) {
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.SELECCIONARFECHA_TURNO);
 
@@ -93,7 +93,7 @@ public class TurnoController {
 	}
 	
 	@PostMapping("/seleccionar-horario")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarHorario(@RequestParam int servicioId,
 	                                       @RequestParam int sedeId,
 	                                       @RequestParam String fecha) {
@@ -108,7 +108,7 @@ public class TurnoController {
 	}
 	
 	@PostMapping("/confirmar")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView confirmarTurno(@RequestParam int servicioId,
 	                                 @RequestParam int sedeId,
 	                                 @RequestParam String fecha,
@@ -138,6 +138,7 @@ public class TurnoController {
 	}
 
 	@PostMapping("/guardar-turno")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView guardarTurno(@RequestParam int servicioId,
 									@RequestParam String CoidgoTurno,
 	                                @RequestParam int sedeId,
@@ -169,6 +170,7 @@ public class TurnoController {
 	/* PRIMERA VISTA ANULACION: formulario de anulacion
 	 * URL: GET /anular-turno  */
 	@GetMapping("/anular-turno")
+	@PreAuthorize("hasAnyRole('USER')")
     public ModelAndView mostrarFormularioAnulacion() {
 		
         return new ModelAndView(ViewRouteHelper.ANULAR_TURNO);
@@ -177,6 +179,7 @@ public class TurnoController {
 	/* SEGUNDA VISTA ANULACION: vista de anulacion correcta
 	 * URL: POST /anulacionCorrecta  */
 	@PostMapping("/anulacionCorrecta")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView anularTurno(@RequestParam("codigo") String codigoA, RedirectAttributes redirectAttributes) {
 	    Turno turnoAux = turnoService.findByCodigoTurno(codigoA);
 	    

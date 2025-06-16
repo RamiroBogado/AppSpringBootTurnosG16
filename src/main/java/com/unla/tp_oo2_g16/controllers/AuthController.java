@@ -1,6 +1,8 @@
 package com.unla.tp_oo2_g16.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,10 +40,20 @@ public class AuthController {
         return ViewRouteHelper.AUTH_LOGIN;
     }
     
-    //GET auth/loginSuccess --> Return the view in path home/index if login is successful
+    //GET auth/loginSuccess --> Rotorna la vista depende del rol user
     @GetMapping("/loginSuccess")
-    public String loginCheck() {
-        return "redirect:/turno/index";
+    public String loginRedirect(Authentication authentication) {
+        if (authentication != null) {
+            for (GrantedAuthority auth : authentication.getAuthorities()) {
+                if (auth.getAuthority().equals("ROLE_ADMIN")) {
+                    return "redirect:/admin/panel";
+                } else if (auth.getAuthority().equals("ROLE_USER")) {
+                    return "redirect:/turno/index";
+                }
+            }
+        }
+        
+        return "redirect:/auth/login?error";
     }
       
     //REGISTER 
