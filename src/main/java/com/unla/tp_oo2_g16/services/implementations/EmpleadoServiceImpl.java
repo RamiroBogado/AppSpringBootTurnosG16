@@ -45,4 +45,30 @@ public class EmpleadoServiceImpl implements EmpleadoServiceInterface {
     public Empleado findByLegajo(String legajo) {
         return empleadoRepository.findByLegajo(legajo);
     }
+    
+    @Override
+    public List<Empleado> buscarPorNombreODniOCuil(String filtro) {
+        return empleadoRepository.buscarPorFiltro(filtro);
+    }
+    
+    @Override
+    public Empleado editado(Empleado empleado) {
+        if (empleado.getIdPersona() != null) {
+        	Empleado EmpleadoOriginal = empleadoRepository.findById(empleado.getIdPersona()).orElseThrow();
+
+            // Actualizás solo los campos editables
+        	EmpleadoOriginal.setNombre(empleado.getNombre());
+        	EmpleadoOriginal.setApellido(empleado.getApellido());
+        	EmpleadoOriginal.setDni(empleado.getDni());
+        	EmpleadoOriginal.setLegajo(empleado.getLegajo());
+        	EmpleadoOriginal.setPuesto(empleado.getPuesto());
+
+            // El user ya está asociado y no se toca
+
+            return empleadoRepository.save(EmpleadoOriginal);
+        }
+
+        // Es un nuevo cliente
+        return empleadoRepository.save(empleado);
+    }
 }

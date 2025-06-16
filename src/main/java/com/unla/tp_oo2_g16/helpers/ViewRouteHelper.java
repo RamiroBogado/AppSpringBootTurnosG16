@@ -26,6 +26,12 @@ public class ViewRouteHelper {
 	public static final String CLIENTE_INDEX = "cliente/index";
 	public static final String CLIENTE_FORM = "cliente/form";
 	public static final String CLIENTE_REGISTER = "cliente/register";
+	
+	/**** EMPLEADO ****/
+	
+	public static final String EMPLEADO_INDEX = "empleado/index";
+	public static final String EMPLEADO_FORM = "empleado/form";
+	public static final String EMPLEADO_REGISTER = "empleado/register";
 
 }
 

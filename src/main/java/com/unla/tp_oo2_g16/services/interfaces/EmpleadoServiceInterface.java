@@ -11,5 +11,7 @@ public interface EmpleadoServiceInterface {
     void deleteById(Integer id);
     Empleado findByDni(String dni);
     Empleado findByLegajo(String legajo);
+	List<Empleado> buscarPorNombreODniOCuil(String filtro);
+	Empleado editado(Empleado empleado);
 
 }
