@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.unla.tp_oo2_g16.helpers.ViewRouteHelper;
 import com.unla.tp_oo2_g16.models.entities.Cliente;
@@ -175,8 +176,13 @@ public class TurnoController {
 	/* SEGUNDA VISTA ANULACION: vista de anulacion correcta
 	 * URL: POST /anulacionCorrecta  */
 	@PostMapping("/anulacionCorrecta")
-	public ModelAndView anularTurno(@RequestParam("codigo") String codigoA) {
+	public ModelAndView anularTurno(@RequestParam("codigo") String codigoA, RedirectAttributes redirectAttributes) {
 	    Turno turnoAux = turnoService.findByCodigoTurno(codigoA);
+	    
+	    if (turnoAux == null) {
+	        redirectAttributes.addFlashAttribute("error", "❌ El código ingresado no corresponde a ningún turno.");
+	        return new ModelAndView("redirect:/turno/anular-turno");
+	    }
 
 	    disponibilidadesService.liberarDisponibilidadPorTurno(turnoAux);
 	    

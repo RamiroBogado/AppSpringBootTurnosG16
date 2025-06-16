@@ -68,6 +68,10 @@
 <body>
     <div class="container-box">
         <h1>Anular Turno</h1>
+		<!-- Mensaje de error -->
+		    <div th:if="${error}" class="alert alert-danger" role="alert" style="margin-bottom: 15px;">
+		        <span th:text="${error}"></span>
+		    </div>
         <form th:action="@{/turno/anulacionCorrecta}" method="post">
             <div class="mb-3">
                 <label for="codigoTurno" class="form-label">Ingrese su código de turno</label>
