@@ -20,6 +20,7 @@ public class Empleado extends Persona {
 		super(nombre, apellido, dni);
 		this.legajo = legajo;
 		this.puesto = puesto;
+		this.setUser(null);
 	}
        
 }

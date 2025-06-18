@@ -53,7 +53,7 @@ public class UsersSeeder implements CommandLineRunner {
                 .roles(Set.of(roleRepository.findBynombre(RoleType.ADMIN).get()))
                 .build(); 
     }
-
+    
     private void loadRoles() {
         if (roleRepository.count() == 0){
             roleRepository.save(buildRole(RoleType.USER));
