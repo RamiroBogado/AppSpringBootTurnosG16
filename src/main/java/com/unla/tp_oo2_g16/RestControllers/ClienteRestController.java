@@ -9,13 +9,13 @@ import com.unla.tp_oo2_g16.services.interfaces.ClienteServiceInterface;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ClienteRestController {
     
     private final ClienteServiceInterface clienteService;
     
-    @GetMapping
+    @GetMapping("/clientes")
     public List<Cliente> getAllClientes() {
         return clienteService.findAll();
     }

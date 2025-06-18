@@ -29,7 +29,7 @@ public abstract class Persona {
     private String apellido;
 
     @NotBlank(message = "El DNI es obligatorio")
-    @Pattern(regexp = "\\d{7,10}", message = "El DNI debe tener entre 7 y 10 dígitos")
+    @Pattern(regexp = "\\d{7,8}", message = "El DNI debe tener entre 7 y 8 numeros")
     @Column(name = "dni", nullable = false, unique = true, length = 20)
     private String dni;
 

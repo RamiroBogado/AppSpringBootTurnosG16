@@ -25,6 +25,9 @@ public class EmpleadoRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Empleado> getEmpleadoById(@PathVariable Integer id) {
         Empleado empleado = empleadoService.findById(id);
+        
+        System.out.println(empleado);
+        
         return empleado != null ? ResponseEntity.ok(empleado) : ResponseEntity.notFound().build();
     }
     
