@@ -52,10 +52,16 @@
 
 <div class="confirmation-box">
     <div class="confirmation-title">¡Turno Confirmado!</div>
-    <div class="confirmation-message">
-        Se le enviará un correo electrónico con toda la información de su turno.
+
+    <div class="confirmation-message"
+         th:text="${cliente.nombre + ', se le enviará un correo electrónico a ' + cliente.user.emailUser + ' con toda la información de su turno.'}">
+        Juan, se le enviará un correo electrónico a juan@mail.com con toda la información de su turno.
     </div>
-    
+
+    <div class="confirmation-message mt-3">
+        <strong>Código de Turno:</strong> <span th:text="${codigoTurno}">TUR12345</span>
+    </div>
+
     <a th:href="@{/turno/index}" class="btn btn-home btn-lg mt-4">Volver al Inicio</a>
 </div>
 

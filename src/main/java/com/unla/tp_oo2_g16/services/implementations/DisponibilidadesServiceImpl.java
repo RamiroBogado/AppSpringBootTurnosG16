@@ -2,7 +2,6 @@ package com.unla.tp_oo2_g16.services.implementations;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +11,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.unla.tp_oo2_g16.dtos.DisponibilidadDTO;
 import com.unla.tp_oo2_g16.models.entities.Disponibilidad;
 import com.unla.tp_oo2_g16.models.entities.Servicio;
 import com.unla.tp_oo2_g16.models.entities.Turno;
 import com.unla.tp_oo2_g16.repositories.DisponibilidadRepository;
+import com.unla.tp_oo2_g16.repositories.ServicioRepository;
 import com.unla.tp_oo2_g16.services.interfaces.DisponibilidadesServiceInterface;
 
 @Service
@@ -23,6 +24,9 @@ public class DisponibilidadesServiceImpl implements DisponibilidadesServiceInter
 
     @Autowired
     private DisponibilidadRepository disponibilidadRepository;
+    
+    @Autowired
+    private ServicioRepository servicioRepository;
    
     @Override
     public List<Disponibilidad> findAll() {
@@ -77,23 +81,17 @@ public class DisponibilidadesServiceImpl implements DisponibilidadesServiceInter
                 .collect(Collectors.toList());
     }
 
-    public List<String> findFechasDisponibles(int servicioId) {
-        List<LocalDate> fechas = disponibilidadRepository.findFechasDisponiblesByServicio(servicioId);
+    public List<DisponibilidadDTO> findHorariosDisponiblesPorFecha(int servicioId, String fecha) {
+        Servicio servicio = servicioRepository.findById(servicioId)
+            .orElseThrow(() -> new RuntimeException("Servicio no encontrado"));
 
-        // Mapear LocalDate a String yyyy-MM-dd para pasar a Thymeleaf y flatpickr
-        return fechas.stream()
-                     .map(date -> date.format(DateTimeFormatter.ISO_LOCAL_DATE))
-                     .collect(Collectors.toList());
+        LocalDate fechaBuscada = LocalDate.parse(fecha);
+
+        return disponibilidadRepository.findByServicioAndFechaAndEstado(servicio, fechaBuscada, false).stream()
+            .map(d -> new DisponibilidadDTO(fecha, d.getHorarioInicio().toString()))
+            .toList();
     }
-    
-    @Override
-    public List<String> findHorariosDisponiblesPorFecha(int servicioId, String fecha) {
-        LocalDate fechaParsed = LocalDate.parse(fecha); // formato ISO "yyyy-MM-dd"
-        List<LocalTime> horarios = disponibilidadRepository.findHorariosDisponiblesPorFecha(servicioId, fechaParsed);
-        return horarios.stream()
-                       .map(LocalTime::toString) // "09:00", "10:30", etc.
-                       .collect(Collectors.toList());
-    }
+
     
     @Override
     public Disponibilidad findDisponible(int servicioId, LocalDate fecha, LocalTime horario) {
@@ -131,9 +129,16 @@ public class DisponibilidadesServiceImpl implements DisponibilidadesServiceInter
         liberarDisponibilidad(servicio.getIdServicio(), fecha, hora);
 
     }
+    
+    public List<DisponibilidadDTO> findFechasDisponibles(int servicioId) {
+        Servicio servicio = servicioRepository.findById(servicioId)
+            .orElseThrow(() -> new RuntimeException("Servicio no encontrado"));
 
-
-
+        return disponibilidadRepository.findByServicioAndEstado(servicio, false).stream()
+            .map(d -> new DisponibilidadDTO(d.getFecha().toString(), null))
+            .distinct()
+            .toList();
+    }
 
 
 
