@@ -22,5 +22,7 @@ public class Cliente extends Persona {
 
     @Column(name = "es_concurrente")
     private boolean esConcurrente;
+
+    //Prueba
 }
 
