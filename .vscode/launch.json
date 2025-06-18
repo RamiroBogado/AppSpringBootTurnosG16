@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "TpOo2G16Application",
+            "request": "launch",
+            "mainClass": "com.unla.tp_oo2_g16.TpOo2G16Application",
+            "projectName": "tp-oo2-g16",
+            "env": {
+                "EMAIL_SENDER": "tpoo2g16@gmail.com",
+                "EMAIL_PASSWORD": "zbsq xowy zmay yvlq",
+                "DB_URL": "jdbc:mysql://localhost:3306/tp_oo2_g16",
+                "DB_USERNAME": "root",
+                "DB_PASSWORD": "2810"
+            }
+        }
+    ]
+}
