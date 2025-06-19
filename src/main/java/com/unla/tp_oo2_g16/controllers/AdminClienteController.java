@@ -84,6 +84,18 @@ public class AdminClienteController {
         return "redirect:/cliente/index";
     }
 
+    @GetMapping("/editar/{id}")
+    public String editarCliente(@PathVariable Integer id, Model model) {
+        Cliente cliente = clienteService.findById(id);
+        if (cliente == null) {
+            // Si no existe, redirigir al listado
+            return "redirect:/cliente/index";
+        }
+        ClienteDTO clienteDTO = clienteService.toDTO(cliente);
+        model.addAttribute("cliente", clienteDTO);
+        return ViewRouteHelper.CLIENTE_REGISTER; // Mismo formulario que para nuevo
+    }
+
 
     @GetMapping("/eliminar/{id}")
     public String eliminarCliente(@PathVariable("id") Integer idAux) {
