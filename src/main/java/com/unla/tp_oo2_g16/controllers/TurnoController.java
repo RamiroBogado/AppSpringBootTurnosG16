@@ -4,17 +4,24 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.unla.tp_oo2_g16.dtos.DisponibilidadDTO;
+import com.unla.tp_oo2_g16.dtos.SedeDTO;
+import com.unla.tp_oo2_g16.dtos.ServicioDTO;
+import com.unla.tp_oo2_g16.dtos.TurnoDTO;
 import com.unla.tp_oo2_g16.helpers.ViewRouteHelper;
 import com.unla.tp_oo2_g16.models.entities.Cliente;
 import com.unla.tp_oo2_g16.models.entities.Sede;
@@ -47,8 +54,6 @@ public class TurnoController {
 	private ClienteServiceInterface clienteService;
 	@Autowired
 	private EmailServiceInterface emailService;
-
-	//private ModelMapper modelMapper = new ModelMapper();
 	
 	/*
 	 * PRIMERA VISTA: botón "Solicitar Turno" URL: GET /index
@@ -63,22 +68,41 @@ public class TurnoController {
 	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarServicio() {
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.SELECCIONARSERVICIO_TURNO);
-	    mav.addObject("servicios", servicioService.findAll());
+
+	    List<ServicioDTO> serviciosDTO = servicioService.findAll().stream()
+	        .map(servicio -> new ServicioDTO(servicio.getIdServicio(), servicio.getNombre()))
+	        .collect(Collectors.toList());
+
+	    mav.addObject("servicios", serviciosDTO);
 	    return mav;
 	}
+
+
 	
 	@PostMapping("/seleccionar-sede")
 	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarSede(@RequestParam int servicioId) {
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.SELECCIONARSEDE_TURNO);
-	    
+
 	    Servicio servicio = servicioService.findById(servicioId);
-	    	    
-	    mav.addObject("servicio", servicio);
-	    mav.addObject("sedes", servicio.getSedes());
+
+	    // Convertimos el set de sedes a lista de SedeDTO
+	    List<SedeDTO> sedesDTO = servicio.getSedes().stream()
+	        .map(sede -> new SedeDTO(
+	            sede.getIdSede(),
+	            sede.getDireccion(),
+	            sede.getLocalidad().getLocalidad() // nombre de la localidad
+	        ))
+	        .collect(Collectors.toList());
+
+	    // Pasamos el servicio (puede ser la entidad o un DTO según lo uses)
+	    ServicioDTO servicioDTO = new ServicioDTO(servicio.getIdServicio(), servicio.getNombre());
+
+	    mav.addObject("servicio", servicioDTO);
+	    mav.addObject("sedes", sedesDTO);
+
 	    return mav;
 	}
-
 
 	@PostMapping("/seleccionar-fecha")
 	@PreAuthorize("hasAnyRole('USER')")
@@ -87,11 +111,17 @@ public class TurnoController {
 
 	    mav.addObject("servicioId", servicioId);
 	    mav.addObject("sedeId", sedeId);
-	    mav.addObject("fechasDisponibles", disponibilidadesService.findFechasDisponibles(servicioId));
+
+	    List<String> fechas = disponibilidadesService.findFechasDisponibles(servicioId).stream()
+	        .map(DisponibilidadDTO::fecha)
+	        .distinct()
+	        .toList();
+
+	    mav.addObject("fechasDisponibles", fechas);
 
 	    return mav;
 	}
-	
+
 	@PostMapping("/seleccionar-horario")
 	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarHorario(@RequestParam int servicioId,
@@ -102,70 +132,69 @@ public class TurnoController {
 	    mav.addObject("servicioId", servicioId);
 	    mav.addObject("sedeId", sedeId);
 	    mav.addObject("fecha", fecha);
-	    mav.addObject("horarios", disponibilidadesService.findHorariosDisponiblesPorFecha(servicioId, fecha));
+
+	    List<String> horarios = disponibilidadesService.findHorariosDisponiblesPorFecha(servicioId, fecha).stream()
+	        .map(DisponibilidadDTO::horario)
+	        .toList();
+
+	    mav.addObject("horarios", horarios);
 
 	    return mav;
 	}
+
 	
 	@PostMapping("/confirmar")
 	@PreAuthorize("hasAnyRole('USER')")
-	public ModelAndView confirmarTurno(@RequestParam int servicioId,
-	                                 @RequestParam int sedeId,
-	                                 @RequestParam String fecha,
-	                                 @RequestParam String horario,
-	                                 Principal principal) {
-	    // Buscar entidades necesarias
-	    Servicio servicio = servicioService.findById(servicioId);
-	    Sede sede = sedeService.findById(sedeId);
-	    
+	public ModelAndView confirmarTurno(@ModelAttribute TurnoDTO turnoDTO, Principal principal) {
+	    ModelAndView mav = new ModelAndView(ViewRouteHelper.CONFRIMACION_TURNO);
 
+	    Servicio servicio = servicioService.findById(turnoDTO.servicioId());
+	    Sede sede = sedeService.findById(turnoDTO.sedeId());
 	    Cliente cliente = clienteService.findByEmail(principal.getName());
 
-	    // Combinar fecha y hora en LocalDateTime
-	    LocalDate fechaParsed = LocalDate.parse(fecha);
-	    LocalTime horaParsed = LocalTime.parse(horario);
-	    LocalDateTime fechaHora = LocalDateTime.of(fechaParsed, horaParsed);
+	    LocalDateTime fechaHora = LocalDateTime.of(
+	        LocalDate.parse(turnoDTO.fecha()),
+	        LocalTime.parse(turnoDTO.horario())
+	    );
 
-	    // Crear el turno
 	    Turno turno = new Turno(cliente, servicio, fechaHora);
-	    	    
-	    // Redirigir a la vista de confirmación
-	    ModelAndView mav = new ModelAndView(ViewRouteHelper.CONFRIMACION_TURNO);
+
+	    mav.addObject("turno", turno); 
 	    mav.addObject("sedeSeleccionada", sede);
-	    mav.addObject("CoidgoTurno", turno.getCodigoTurno());
-	    mav.addObject("turno", turno);
+
 	    return mav;
 	}
+
 
 	@PostMapping("/guardar-turno")
 	@PreAuthorize("hasAnyRole('USER')")
-	public ModelAndView guardarTurno(@RequestParam int servicioId,
-									@RequestParam String CoidgoTurno,
-	                                @RequestParam int sedeId,
-	                                @RequestParam String fecha,
-	                                @RequestParam String horario,
-	                                Principal principal) throws MessagingException {
-	    // Parsear fecha y hora
-	    LocalDate fechaParsed = LocalDate.parse(fecha);
-	    LocalTime horaParsed = LocalTime.parse(horario);
-	    LocalDateTime fechaHora = LocalDateTime.of(fechaParsed, horaParsed);
-
-	    Servicio servicio = servicioService.findById(servicioId);
-	    Sede sede = sedeService.findById(sedeId);
+	public ModelAndView guardarTurno(@ModelAttribute TurnoDTO turnoDTO, Principal principal) throws MessagingException {
 	    Cliente cliente = clienteService.findByEmail(principal.getName());
+	    Servicio servicio = servicioService.findById(turnoDTO.servicioId());
+	    Sede sede = sedeService.findById(turnoDTO.sedeId());
+
+	    LocalDateTime fechaHora = LocalDateTime.of(
+	        LocalDate.parse(turnoDTO.fecha()),
+	        LocalTime.parse(turnoDTO.horario())
+	    );
 
 	    Turno turno = new Turno(cliente, servicio, fechaHora);
-	    turno.setCodigoTurno(CoidgoTurno);
+
 	    turnoService.save(turno);
-	    	    
-	    disponibilidadesService.ocuparDisponibilidad(servicioId, fechaParsed, horaParsed);
-	     
+
+	    disponibilidadesService.ocuparDisponibilidad(servicio.getIdServicio(), fechaHora.toLocalDate(), fechaHora.toLocalTime());
+
 	    emailService.enviarConfirmacionTurnoHtml(cliente.getUser().getEmailUser(), turno, sede);
 
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.GUARDAR_TURNO);
+	    mav.addObject("cliente", cliente);
 	    mav.addObject("success", "Turno guardado correctamente");
+	    mav.addObject("codigoTurno", turno.getCodigoTurno());
+	    
 	    return mav;
 	}
+
+
 
 	/* PRIMERA VISTA ANULACION: formulario de anulacion
 	 * URL: GET /anular-turno  */
@@ -180,8 +209,8 @@ public class TurnoController {
 	 * URL: POST /anulacionCorrecta  */
 	@PostMapping("/anulacionCorrecta")
 	@PreAuthorize("hasAnyRole('USER')")
-	public ModelAndView anularTurno(@RequestParam("codigo") String codigoA, RedirectAttributes redirectAttributes) {
-	    Turno turnoAux = turnoService.findByCodigoTurno(codigoA);
+	public ModelAndView anularTurno(@RequestParam("codigo") String codigoTurno, RedirectAttributes redirectAttributes) {
+	    Turno turnoAux = turnoService.findByCodigoTurno(codigoTurno);
 	    
 	    if (turnoAux == null) {
 	        redirectAttributes.addFlashAttribute("error", "❌ El código ingresado no corresponde a ningún turno.");

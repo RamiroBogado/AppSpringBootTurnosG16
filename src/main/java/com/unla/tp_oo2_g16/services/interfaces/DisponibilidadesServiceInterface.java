@@ -3,6 +3,8 @@ package com.unla.tp_oo2_g16.services.interfaces;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import com.unla.tp_oo2_g16.dtos.DisponibilidadDTO;
 import com.unla.tp_oo2_g16.models.entities.Disponibilidad;
 import com.unla.tp_oo2_g16.models.entities.Turno;
 
@@ -18,10 +20,8 @@ public interface DisponibilidadesServiceInterface {
     List<LocalTime> findAllhorariosDisponibles();
     
     public List<String> findHorariosDisponibles(Integer servicioId);
-    
-    public List<String> findFechasDisponibles(int servicioId);
-    
-    List<String> findHorariosDisponiblesPorFecha(int servicioId, String fecha);
+        
+    List<DisponibilidadDTO> findHorariosDisponiblesPorFecha(int servicioId, String fecha);
 
 	Disponibilidad findDisponible(int servicioId, LocalDate fecha, LocalTime horario);
 
@@ -33,6 +33,6 @@ public interface DisponibilidadesServiceInterface {
 	
 	public void liberarDisponibilidadPorTurno(Turno turno);
 
-
+	public List<DisponibilidadDTO> findFechasDisponibles(int servicioId);
 }
 

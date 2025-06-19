@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.unla.tp_oo2_g16.models.entities.Disponibilidad;
+import com.unla.tp_oo2_g16.models.entities.Servicio;
 
 @Repository
 public interface DisponibilidadRepository extends JpaRepository<Disponibilidad, Integer> {
@@ -33,5 +34,11 @@ public interface DisponibilidadRepository extends JpaRepository<Disponibilidad, 
 	
 	@Query("SELECT d FROM Disponibilidad d WHERE d.servicio.idServicio = :servicioId AND d.fecha = :fecha AND d.horarioInicio = :horario AND d.estado = TRUE")
 	Disponibilidad findNoDisponible(int servicioId, LocalDate fecha, LocalTime horario);
+
+	List<Disponibilidad> findByServicioAndEstado(Servicio servicio, boolean estado);
+	
+	List<Disponibilidad> findByServicioAndFechaAndEstado(Servicio servicio, LocalDate fecha, boolean estado);
+
+
 
 }

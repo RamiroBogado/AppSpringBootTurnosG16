@@ -13,6 +13,13 @@ import com.unla.tp_oo2_g16.models.entities.Empleado;
 public interface EmpleadoRepository extends JpaRepository<Empleado, Integer> {
     Empleado findByLegajo(String legajo);
     Empleado findByDni(String dni);
+    boolean existsByDni(String dni);
+
+    boolean existsByLegajo(String legajo);
+
+    boolean existsByDniAndIdPersonaNot(String dni, Integer idPersona);
+
+    boolean existsByLegajoAndIdPersonaNot(String legajo, Integer idPersona);
     
     @Query("SELECT e FROM Empleado e WHERE " +
     	       "LOWER(e.nombre) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
