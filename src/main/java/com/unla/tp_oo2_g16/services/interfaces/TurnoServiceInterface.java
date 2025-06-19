@@ -3,6 +3,7 @@ package com.unla.tp_oo2_g16.services.interfaces;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.unla.tp_oo2_g16.dtos.TurnoGestionDTO;
 import com.unla.tp_oo2_g16.models.entities.Turno;
 
 public interface TurnoServiceInterface {
@@ -16,4 +17,9 @@ public interface TurnoServiceInterface {
 	    List<Turno> findByFechaBetween(LocalDateTime inicio, LocalDateTime fin);
 	    List<Turno> findByEstado(String estado);    
 	    Turno findByCodigoTurno(String codigoTurno);
+	    
+	    TurnoGestionDTO toDTO(Turno turno);
+	    Turno toEntity(TurnoGestionDTO dto);
+	    
+	    List<Turno> buscarPorFiltroYEstado(String filtro, String estado);
 }
