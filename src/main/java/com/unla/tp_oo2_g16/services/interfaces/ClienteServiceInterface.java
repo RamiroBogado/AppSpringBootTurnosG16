@@ -2,6 +2,7 @@ package com.unla.tp_oo2_g16.services.interfaces;
 
 import java.util.List;
 
+import com.unla.tp_oo2_g16.dtos.ClienteDTO;
 import com.unla.tp_oo2_g16.models.entities.Cliente;
 
 public interface ClienteServiceInterface {
@@ -18,8 +19,13 @@ public interface ClienteServiceInterface {
 
     public boolean existsByCuil(Long cuil);
     
-    List<Cliente> buscarPorNombreODniOCuil(String filtro);
+    boolean existsByEmail(String email);
+    
+    List<Cliente> buscarPorFiltroYConcurrente(String filtro, String concurrenteStr);
     
 	Cliente editado(Cliente cliente);
+	
+	ClienteDTO toDTO(Cliente c);
+	Cliente toEntity(ClienteDTO dto);
 
 }

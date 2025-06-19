@@ -70,24 +70,28 @@
     </nav>
 
     <!-- Contenedor principal -->
-    <div class="container">
-        <h1 class="text-center">SELECCIONAR SERVICIO</h1>
+<!-- Contenedor principal -->
+<div class="container">
+    <h1 class="text-center">SELECCIONAR SERVICIO</h1>
 
-        <form th:action="@{/turno/seleccionar-sede}" method="post">
-            <div class="mb-3">
-                <label for="servicioId" class="form-label">Servicio:</label>
-                <select class="form-select" id="servicioId" name="servicioId" required>
-                    <option value="" disabled selected>-- Seleccione --</option>
-                    <option th:each="s : ${servicios}" 
-                            th:value="${s.idServicio}" 
-                            th:text="${s.nombre}">
-                    </option>
-                </select>
-            </div>
+    <form th:action="@{/turno/seleccionar-sede}" method="post">
+        <div class="mb-3">
+            <label for="servicioId" class="form-label">Servicio:</label>
+            <select class="form-select" id="servicioId" name="servicioId" required>
+                <option value="" disabled selected>-- Seleccione --</option>
+                <option th:each="s : ${servicios}" 
+                        th:value="${s.idServicio}" 
+                        th:text="${s.nombre}">
+                </option>
+            </select>
+        </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">Siguiente</button>
-            </div>
+        <div class="d-grid mb-2">
+            <button type="submit" class="btn btn-primary btn-lg">Siguiente</button>
+        </div>
+    </form>
+</div>
+
         </form>
     </div>
 </body>

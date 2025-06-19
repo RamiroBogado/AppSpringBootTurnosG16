@@ -7,6 +7,7 @@ import com.unla.tp_oo2_g16.repositories.TurnoRepository;
 import com.unla.tp_oo2_g16.services.interfaces.TurnoServiceInterface;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,14 @@ public class TurnoServiceImplementation implements TurnoServiceInterface {
     
     @Override
     public Turno save(Turno turno) {
+        if (turno.getCodigoTurno() == null || turno.getCodigoTurno().isEmpty()) {
+            turno.setCodigoTurno(generateCodigoTurno());
+        }
         return turnoRepository.save(turno);
+    }
+
+    private String generateCodigoTurno() {
+        return "TUR" + UUID.randomUUID().toString().substring(0, 7).toUpperCase();
     }
     
     @Override
@@ -59,5 +67,7 @@ public class TurnoServiceImplementation implements TurnoServiceInterface {
 		
 		return turnoRepository.findByCodigoTurno(codigoTurno);
 	} 
+	
+	
 
 }

@@ -73,24 +73,19 @@
                     <p><strong>Email:</strong> <span th:text="${turno.cliente.user.emailUser}">cliente@mail.com</span></p>
                 </div>
             </div>
-
-            <h5 class="section-title">Código de Turno</h5>
-            <p>
-                <span class="badge bg-danger" th:text="${turno.codigoTurno}">COD12345</span>
-            </p>
         </div>
     </div>
 
     <div class="text-center mt-4">
 
-        <form th:action="@{/turno/guardar-turno}" method="post" class="d-inline" aria-label="Confirmar turno">
-            <input type="hidden" name="servicioId" th:value="${turno.servicio.idServicio}" />
-			<input type="hidden" name="CoidgoTurno" th:value="${turno.codigoTurno}" />
-            <input type="hidden" name="sedeId" th:value="${sedeSeleccionada.idSede}" />
-            <input type="hidden" name="fecha" th:value="${#temporals.format(turno.fechaHora, 'yyyy-MM-dd')}" />
-            <input type="hidden" name="horario" th:value="${#temporals.format(turno.fechaHora, 'HH:mm')}" />
-            <button type="submit" class="btn btn-success px-4 py-2">Confirmar Turno</button>
-        </form>
+		<form th:action="@{/turno/guardar-turno}" method="post" th:object="${turnoDTO}">
+		    <input type="hidden" th:field="*{servicioId}" />
+		    <input type="hidden" th:field="*{sedeId}" />
+		    <input type="hidden" th:field="*{fecha}" />
+		    <input type="hidden" th:field="*{horario}" />
+		    <input type="hidden" th:field="*{codigoTurno}" />
+		    <button type="submit" class="btn btn-success px-4 py-2">Confirmar Turno</button>
+		</form>
     </div>
 </div>
 
