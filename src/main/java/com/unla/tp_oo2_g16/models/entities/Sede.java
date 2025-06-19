@@ -10,6 +10,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Sede {
  
     @Id

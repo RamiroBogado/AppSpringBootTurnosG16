@@ -13,5 +13,7 @@ public interface SedeServiceInterface {
     Sede findById(Integer id);
     Sede save(Sede ubicacion);
     void deleteById(Integer id);
+    List<Sede> buscarPorDireccionOLocalidad(String filtro);
+    Sede editado(Sede sede);
 
 }

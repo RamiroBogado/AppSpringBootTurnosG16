@@ -6,4 +6,8 @@ import com.unla.tp_oo2_g16.models.entities.Localidad;
 
 @Repository
 public interface LocalidadRepository extends JpaRepository<Localidad, Integer> {
+
+    Localidad findById(int idLocalidad);
+    Localidad findByLocalidad(String localidad);
+
 }

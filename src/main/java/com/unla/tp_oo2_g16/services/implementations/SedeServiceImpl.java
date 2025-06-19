@@ -42,4 +42,26 @@ public class SedeServiceImpl implements SedeServiceInterface {
     public void deleteById(Integer id) {
         sedeRepository.deleteById(id);
     }
+
+    @Override
+    public List<Sede> buscarPorDireccionOLocalidad(String filtro){
+        return sedeRepository.buscarPorFiltro(filtro);
+    }
+
+    @Override
+    public Sede editado(Sede sede) {
+        if (sede.getIdSede() != null) {
+        	Sede sedeOriginal = sedeRepository.findById(sede.getIdSede()).orElseThrow();
+
+            // Actualizás solo los campos editables
+        	sedeOriginal.setDireccion(sede.getDireccion());
+        	sedeOriginal.setLocalidad(sede.getLocalidad());
+
+            return sedeRepository.save(sedeOriginal);
+        }
+
+        // Es un nuevo cliente
+        return sedeRepository.save(sede);
+    }
+
 }

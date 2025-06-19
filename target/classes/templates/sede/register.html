@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos de la Sede</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            padding: 40px;
+        }
+        .container-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .form-control {
+            border-color: #3498db;
+        }
+        .form-control:focus {
+            border-color: #217dbb;
+            box-shadow: 0 0 8px #217dbb;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.6);
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+        .text-danger {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container container-box">
+    <form th:action="@{/sede/guardar}" method="post" th:object="${sede}">
+        <div class="section-title">
+            <h1>DATOS DE LA SEDE</h1>
+        </div>
+
+        <input type="hidden" th:field="*{idSede}" />
+
+        <!-- Dirección -->
+        <div class="mb-3">
+            <label class="form-label">Dirección</label>
+            <input type="text" class="form-control" th:field="*{direccion}" placeholder="Ej: Santa Fe 1234" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+        </div>
+
+        <!-- Localidad -->
+        <div class="mb-3">
+            <label class="form-label">Localidad</label>
+            <input type="text" class="form-control" th:field="*{localidad}" placeholder="Ej: Avellaneda" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('localidad')}" th:errors="*{localidad}"></div>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-end gap-2">
+            <a th:href="@{/sede/index}" class="btn btn-secondary btn-lg">Cancelar</a>
+            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+        </div>
+    </form>
+
+    <div class="alert alert-danger mt-3" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

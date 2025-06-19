@@ -33,6 +33,10 @@ public class ViewRouteHelper {
 	public static final String EMPLEADO_FORM = "empleado/form";
 	public static final String EMPLEADO_REGISTER = "empleado/register";
 
+	/**** SEDE ****/
+	public static final String SEDE_INDEX = "sede/index";
+	public static final String SEDE_REGISTER = "sede/register";
+	public static final String SEDE_FORM = "sede/form";
 }
 
 
