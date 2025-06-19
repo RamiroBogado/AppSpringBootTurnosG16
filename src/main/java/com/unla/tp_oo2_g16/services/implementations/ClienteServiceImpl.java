@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.unla.tp_oo2_g16.dtos.ClienteDTO;
 import com.unla.tp_oo2_g16.enums.RoleType;
 import com.unla.tp_oo2_g16.models.entities.Cliente;
 import com.unla.tp_oo2_g16.repositories.ClienteRepository;
@@ -23,6 +24,8 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     
     @Autowired
 	RoleServiceInterface roleService;
+    @Autowired
+    UserServiceImp userService;
     
     @Override
     public List<Cliente> findAll() {
@@ -102,9 +105,54 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
         return clienteRepository.existsByCuil(cuil);
     }
     
-    @Override
-    public List<Cliente> buscarPorNombreODniOCuil(String filtro) {
-        return clienteRepository.buscarPorFiltro(filtro);
+    public boolean existsByEmail(String email) {
+        return userService.existsByEmail(email);
+    }
+    
+    public List<Cliente> buscarPorFiltroYConcurrente(String filtro, String concurrenteStr) {
+        Boolean concurrente = null;
+
+        if ("true".equalsIgnoreCase(concurrenteStr)) {
+            concurrente = true;
+        } else if ("false".equalsIgnoreCase(concurrenteStr)) {
+            concurrente = false;
+        }
+
+        return clienteRepository.buscarConFiltroOpcional(filtro, concurrente);
+    }
+
+    
+ // Convierte Cliente a ClienteDTO
+    public ClienteDTO toDTO(Cliente c) {
+        return new ClienteDTO(
+            c.getIdPersona(),
+            c.getNombre(),
+            c.getApellido(),
+            c.getDni(),
+            c.getCuil(),
+            c.isEsConcurrente(),
+            c.getUser() != null ? c.getUser().getEmailUser() : null,
+            null // no enviamos password al editar
+        );
+    }
+
+    // Convierte ClienteDTO a Cliente
+    public Cliente toEntity(ClienteDTO dto) {
+        Cliente c = new Cliente();
+        c.setIdPersona(dto.idPersona());
+        c.setNombre(dto.nombre());
+        c.setApellido(dto.apellido());
+        c.setDni(dto.dni());
+        c.setCuil(dto.cuil());
+        c.setEsConcurrente(dto.esConcurrente());
+        if (c.getUser() == null) {
+            c.setUser(new com.unla.tp_oo2_g16.models.entities.UserEntity());
+        }
+        c.getUser().setEmailUser(dto.emailUser());
+        if (dto.passwordUser() != null && !dto.passwordUser().isEmpty()) {
+            c.getUser().setPasswordUser(dto.passwordUser());
+        }
+        return c;
     }
 
 }

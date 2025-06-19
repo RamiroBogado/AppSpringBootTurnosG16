@@ -54,17 +54,28 @@
 <div class="table-container mt-5">
     <h2 class="text-center text-white mb-4">Gestión de Clientes</h2>
 
-<form th:action="@{/cliente/index}" method="get" class="row g-2 mb-4 align-items-center justify-content-center">
-    <div class="col-7">
-        <input type="text" name="filtro" class="form-control" placeholder="Buscar por nombre, apellido, DNI o CUIL" th:value="${filtro}" />
-    </div>
-    <div class="col-auto">
-        <button class="btn btn-light" type="submit">Buscar</button>
-    </div>
-    <div class="col-auto">
-        <a th:href="@{/cliente/nuevo}" class="btn btn-success">Nuevo</a>
-    </div>
-</form>
+	<form th:action="@{/cliente/index}" method="get" class="row g-2 mb-4 align-items-center justify-content-center">
+	    
+	    <div class="col-6">
+	        <input type="text" name="filtro" class="form-control" placeholder="Buscar por nombre, apellido, DNI, CUIL, email" th:value="${filtro}" />
+	    </div>
+
+	    <div class="col-auto" style="min-width: 130px;">
+	        <select class="form-select form-select-sm" name="concurrente" style="height: calc(1.5em + .5rem + 2px);">
+	            <option value="" th:selected="${concurrente == null}">Todos</option>
+	            <option value="true" th:selected="${concurrente == 'true'}">Concurrentes</option>
+	            <option value="false" th:selected="${concurrente == 'false'}">No Concurrentes</option>
+	        </select>
+	    </div>
+
+	    <div class="col-auto">
+	        <button class="btn btn-light btn-sm" type="submit">Buscar</button>
+	    </div>
+
+	    <div class="col-auto">
+	        <a th:href="@{/cliente/nuevo}" class="btn btn-success btn-sm">Nuevo</a>
+	    </div>
+	</form>
 
     <table class="table table-bordered table-hover table-light">
         <thead class="table-dark">
@@ -73,6 +84,8 @@
                 <th>Apellido</th>
                 <th>DNI</th>
                 <th>CUIL</th>
+                <th>Email</th>
+                <th>Es Concurrente</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -82,6 +95,10 @@
                 <td th:text="${cliente.apellido}">Apellido</td>
                 <td th:text="${cliente.dni}">DNI</td>
                 <td th:text="${cliente.cuil}">CUIL</td>
+                <td th:text="${cliente.emailUser}">email@ejemplo.com</td>
+                <td>
+                    <span th:text="${cliente.esConcurrente} ? 'Sí' : 'No'">No</span>
+                </td>
                 <td>
                     <a th:href="@{'/cliente/editar/' + ${cliente.idPersona}}" class="btn btn-warning btn-sm">Editar</a>
                     <a th:href="@{'/cliente/eliminar/' + ${cliente.idPersona}}" class="btn btn-danger btn-sm"
