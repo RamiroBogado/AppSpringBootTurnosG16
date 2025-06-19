@@ -66,36 +66,33 @@
     <div class="login-box">
         <h1>Iniciar Sesión</h1>
         <form method="post" th:action="@{/auth/loginProcess}">
-            <input 
-                type="text" 
-                name="username" 
-                placeholder="Usuario" 
-                class="form-control mb-3" 
-                required
-                autofocus
-            />
-            <input 
-                type="password" 
-                name="password" 
-                placeholder="Contraseña" 
-                class="form-control mb-3" 
-                required
-            />
-            <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
+    <input 
+        type="text" 
+        name="username" 
+        placeholder="Usuario" 
+        class="form-control mb-3" 
+        required
+        autofocus
+    />
+    <input 
+        type="password" 
+        name="password" 
+        placeholder="Contraseña" 
+        class="form-control mb-3" 
+        required
+    />
+    <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
 
-            <div 
-                th:if="${error != null}" 
-                class="alert-custom alert-error"
-            >
-                Usuario o contraseña inválidos.
-            </div>
-            <div 
-                th:if="${logout != null}" 
-                class="alert-custom alert-logout"
-            >
-                Sesión cerrada correctamente.
-            </div>
-        </form>
+    <!-- Nuevo botón de registro -->
+    <a th:href="@{/auth/register}" class="btn btn-register w-100 mb-2">Registrarse</a>
+
+    <div th:if="${error != null}" class="alert-custom alert-error">
+        Usuario o contraseña inválidos.
+    </div>
+    <div th:if="${logout != null}" class="alert-custom alert-logout">
+        Sesión cerrada correctamente.
+    </div>
+</form>
     </div>
 </body>
 </html>

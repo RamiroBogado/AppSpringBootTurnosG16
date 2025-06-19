@@ -75,10 +75,10 @@
                 <label for="sedeId" class="form-label">Sede:</label>
                 <select class="form-select" id="sedeId" name="sedeId" required>
                     <option value="" disabled selected>-- Seleccione --</option>
-                    <option th:each="s : ${sedes}"
-                            th:value="${s.idSede}"
-                            th:text="${s.direccion + ' - ' + s.localidad.localidad}">
-                    </option>
+					<option th:each="s : ${sedes}"
+					        th:value="${s.idSede}"
+					        th:text="|${s.direccion} - ${s.localidadNombre}|">
+					</option>
                 </select>
             </div>
 
