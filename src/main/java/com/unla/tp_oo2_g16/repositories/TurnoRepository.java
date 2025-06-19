@@ -24,5 +24,23 @@ public interface TurnoRepository extends JpaRepository<Turno, Integer> {
     List<Turno> findByEstado(String estado);
     
     Turno findByCodigoTurno(String codigoTurno);
+    
+    @Query("SELECT t FROM Turno t " +
+    	       "WHERE LOWER(t.cliente.nombre) LIKE LOWER(CONCAT('%', :filtro, '%')) " +
+    	       "   OR LOWER(t.cliente.apellido) LIKE LOWER(CONCAT('%', :filtro, '%')) " +
+    	       "   OR LOWER(t.servicio.nombre) LIKE LOWER(CONCAT('%', :filtro, '%')) " +
+    	       "   OR STR(t.fechaHora) LIKE %:filtro% " +
+    	       "   OR LOWER(t.estado) LIKE LOWER(CONCAT('%', :filtro, '%')) " +
+    	       "   OR LOWER(t.codigoTurno) LIKE LOWER(CONCAT('%', :filtro, '%'))")
+    	List<Turno> buscarPorClienteServicioFechaEstadoOCodigo(@Param("filtro") String filtro);
 
+    @Query("SELECT t FROM Turno t WHERE " +
+    	       "(LOWER(t.cliente.nombre) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+    	       "LOWER(t.cliente.apellido) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+    	       "LOWER(t.servicio.nombre) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+    	       "STR(t.fechaHora) LIKE %:filtro% OR " +
+    	       "LOWER(t.codigoTurno) LIKE LOWER(CONCAT('%', :filtro, '%'))) AND " +
+    	       "(:estado IS NULL OR :estado = '' OR t.estado = :estado)")
+    	List<Turno> buscarPorFiltroYEstado(@Param("filtro") String filtro, @Param("estado") String estado);
+    
 }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Turnos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding-top: 70px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .form-control, .btn, .form-select {
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin/panel}">Sistema de Turnos</a>
+        <div class="d-flex align-items-center ms-auto">
+            <span class="text-white me-3">Hola, <b th:text="${#authentication.name}">Usuario</b></span>
+            <form th:action="@{/auth/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="table-container mt-5">
+    <h2 class="text-white">Gestión de Turnos</h2>
+
+
+    <form th:action="@{/adminTurno/index}" method="get" class="row g-2 mb-4 justify-content-center">
+        <div class="col-6">
+            <input type="text" name="filtro" class="form-control"
+                   placeholder="Buscar por cliente, servicio, fecha o código"
+                   th:value="${filtro}">
+        </div>
+        <div class="col-auto">
+            <select class="form-select" name="estado">
+                <option value="" th:selected="${estado == null or estado == ''}">Todos los estados</option>
+                <option value="PENDIENTE" th:selected="${estado == 'PENDIENTE'}">Pendiente</option>
+                <option value="CONFIRMADO" th:selected="${estado == 'CONFIRMADO'}">Confirmado</option>
+                <option value="ANULADO" th:selected="${estado == 'ANULADO'}">Anulado</option>
+                <option value="COMPLETADO" th:selected="${estado == 'COMPLETADO'}">Completado</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-light" type="submit">Buscar</button>
+             <a th:href="@{/adminTurno/nuevo}" class="btn btn-success">Nuevo Turno</a>
+        </div>
+        
+    </form>
+
+    <table class="table table-bordered table-hover table-light">
+        <thead class="table-dark text-center">
+        <tr>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Servicio</th>
+            <th>Sede</th>
+            <th>Localidad</th>
+            <th>Fecha y Hora</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+        <tr th:each="turno : ${turnos}">
+            <td th:text="${turno.codigoTurno}">ABCD1234</td>
+            <td th:text="${turno.nombreCliente}">Juan Pérez</td>
+            <td th:text="${turno.nombreServicio}">Consulta</td>
+            <td th:text="${turno.nombreSede}">Av. Rivadavia 1234</td>
+            <td th:text="${turno.nombreLocalidad}">Lanús</td>
+            <td th:text="${turno.fechaHora}">2025-07-01 10:00</td>
+            <td th:text="${turno.estado}">PENDIENTE</td>
+            <td>
+                <a th:href="@{'/adminTurno/editar/' + ${turno.idTurno}}" class="btn btn-warning btn-sm">Editar</a>
+                <a th:href="@{'/adminTurno/eliminar/' + ${turno.idTurno}}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Estás seguro que querés eliminar este turno?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+	
+	<div class="d-flex justify-content-center mt-4">
+		<a th:href="@{/admin/panel}" class="btn btn-secondary">Volver</a>
+	</div>
+</div>
+</body>
+</html>

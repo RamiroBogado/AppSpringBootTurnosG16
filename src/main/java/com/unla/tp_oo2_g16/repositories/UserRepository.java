@@ -12,11 +12,12 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
+    @SuppressWarnings("null")
     Optional<UserEntity> findById(Integer integer);
-    
 
     Optional<UserEntity> findByEmailUser(String emailUser);
 
+    @SuppressWarnings("null")
     @Query(value = "from UserEntity u order by u.id")
     List<UserEntity> findAll();
 

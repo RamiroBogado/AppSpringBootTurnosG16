@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cliente")
-public class ClienteController {
+public class AdminClienteController {
 
     @Autowired
     private ClienteServiceInterface clienteService;

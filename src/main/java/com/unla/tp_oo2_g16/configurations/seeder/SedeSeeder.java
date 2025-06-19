@@ -28,9 +28,9 @@ public class SedeSeeder implements CommandLineRunner {
     }
 
     private void cargarUbicaciones() {
-        Localidad lomas = localidadRepository.findById(1).orElseThrow();
-        Localidad temperley = localidadRepository.findById(2).orElseThrow();
-        Localidad banfield = localidadRepository.findById(3).orElseThrow();
+        Localidad lomas = localidadRepository.findById(1);
+        Localidad temperley = localidadRepository.findById(2);
+        Localidad banfield = localidadRepository.findById(3);
 
         sedeRepository.save(new Sede("Av. Hipólito Yrigoyen 1000", lomas));
         sedeRepository.save(new Sede("Calle San Martín 200", temperley));
