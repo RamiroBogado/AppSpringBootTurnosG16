@@ -11,6 +11,7 @@ public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
 	
 	RoleEntity findByNombre(RoleType nombre);
 	
+    @SuppressWarnings("null")
     Optional<RoleEntity> findById(Integer integer);
 
     Optional<RoleEntity> findBynombre(RoleType type);

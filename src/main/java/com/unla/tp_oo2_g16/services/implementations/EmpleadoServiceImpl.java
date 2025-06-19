@@ -4,6 +4,7 @@ package com.unla.tp_oo2_g16.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import com.unla.tp_oo2_g16.dtos.EmpleadoDTO;
 import com.unla.tp_oo2_g16.models.entities.Empleado;
 import com.unla.tp_oo2_g16.repositories.EmpleadoRepository;
 import com.unla.tp_oo2_g16.services.interfaces.EmpleadoServiceInterface;
@@ -47,7 +48,7 @@ public class EmpleadoServiceImpl implements EmpleadoServiceInterface {
     }
     
     @Override
-    public List<Empleado> buscarPorNombreODniOCuil(String filtro) {
+    public List<Empleado> buscarFiltro(String filtro) {
         return empleadoRepository.buscarPorFiltro(filtro);
     }
     
@@ -71,4 +72,53 @@ public class EmpleadoServiceImpl implements EmpleadoServiceInterface {
         // Es un nuevo cliente
         return empleadoRepository.save(empleado);
     }
+    
+    public EmpleadoDTO toDTO(Empleado e) {
+        if (e == null) return null;
+
+        return new EmpleadoDTO(
+            e.getIdPersona(),
+            e.getNombre(),
+            e.getApellido(),
+            e.getDni(),
+            e.getLegajo(),
+            e.getPuesto()
+        );
+    }
+    
+    public Empleado toEntity(EmpleadoDTO dto) {
+        if (dto == null) return null;
+
+        Empleado e = new Empleado();
+        e.setIdPersona(dto.idPersona());
+        e.setNombre(dto.nombre());
+        e.setApellido(dto.apellido());
+        e.setDni(dto.dni());
+        e.setLegajo(dto.legajo());
+        e.setPuesto(dto.puesto());
+
+        return e;
+    }
+    
+    @Override
+    public boolean existsByDni(String dni) {
+        return empleadoRepository.existsByDni(dni);
+    }
+
+    @Override
+    public boolean existsByLegajo(String legajo) {
+        return empleadoRepository.existsByLegajo(legajo);
+    }
+
+    @Override
+    public boolean existsByDniAndIdPersonaNot(String dni, Integer idPersona) {
+        return empleadoRepository.existsByDniAndIdPersonaNot(dni, idPersona);
+    }
+
+    @Override
+    public boolean existsByLegajoAndIdPersonaNot(String legajo, Integer idPersona) {
+        return empleadoRepository.existsByLegajoAndIdPersonaNot(legajo, idPersona);
+    }
+
+
 }
