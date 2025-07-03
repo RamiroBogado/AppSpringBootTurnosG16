@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.unla.tp_oo2_g16.dtos.TurnoGestionDTO;
+import com.unla.tp_oo2_g16.models.entities.Cliente;
 import com.unla.tp_oo2_g16.models.entities.Turno;
 
 public interface TurnoServiceInterface {
@@ -21,5 +22,7 @@ public interface TurnoServiceInterface {
 	    TurnoGestionDTO toDTO(Turno turno);
 	    Turno toEntity(TurnoGestionDTO dto);
 	    
+	    List<Turno> findByClienteCliente(Cliente cliente);
+  
 	    List<Turno> buscarPorFiltroYEstado(String filtro, String estado);
 }

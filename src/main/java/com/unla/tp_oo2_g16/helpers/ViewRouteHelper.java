@@ -13,6 +13,9 @@ public class ViewRouteHelper {
 	
 	public final static String ANULAR_TURNO = 					"/turno/anular-turno";
 	public final static String ANULACIONCORRECTA_TURNO =        "/turno/anulacionCorrecta-turno";
+	
+	public static final String MIS_TURNOS =                     "/turno/mis-turnos";
+
 
 	/**** Auth ****/
 	public static final String AUTH_LOGIN = "authentication/login";
@@ -21,6 +24,10 @@ public class ViewRouteHelper {
 	
 	/**** ADMIN ****/
 	public static final String ADMIN_PANEL = "admin/admin-panel";
+	
+	/**** ADMINTURNO ****/
+	public static final String ADMINTURNO_REGISTER = "adminTurno/register";
+	public static final String ADMINTURNO_FORM = "adminTurno/form";
 	
 	/**** CLIENTE ****/
 	public static final String CLIENTE_INDEX = "cliente/index";

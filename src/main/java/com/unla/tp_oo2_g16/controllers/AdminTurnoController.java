@@ -1,9 +1,11 @@
 package com.unla.tp_oo2_g16.controllers;
 
 import com.unla.tp_oo2_g16.dtos.TurnoGestionDTO;
+import com.unla.tp_oo2_g16.helpers.ViewRouteHelper;
 import com.unla.tp_oo2_g16.models.entities.Turno;
 import com.unla.tp_oo2_g16.services.interfaces.ClienteServiceInterface;
 import com.unla.tp_oo2_g16.services.interfaces.ServicioServiceInterface;
+import com.unla.tp_oo2_g16.services.interfaces.SedeServiceInterface;
 import com.unla.tp_oo2_g16.services.interfaces.TurnoServiceInterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,9 @@ public class AdminTurnoController {
     @Autowired
     private ServicioServiceInterface servicioService;
 
-    // LISTAR - ya tenés este método
+    @Autowired
+    private SedeServiceInterface sedeService;
+
     @GetMapping("/index")
     public ModelAndView listarTurnos(
             @RequestParam(required = false) String filtro,
@@ -47,28 +51,19 @@ public class AdminTurnoController {
         return mav;
     }
 
-    // NUEVO - muestra el formulario vacío para crear un turno
     @GetMapping("/nuevo")
     public ModelAndView nuevoTurno() {
-        ModelAndView mav = new ModelAndView("adminTurno/register");
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.ADMINTURNO_REGISTER);
 
         TurnoGestionDTO turnoDTO = new TurnoGestionDTO(
-            null,         // idTurno
-            null,         // idCliente
-            null,         // idServicio
-            null,         // idSede
-            "",           // fechaHora
-            "PENDIENTE",  // estado
-            null,         // codigoTurno
-            "",           // nombreCliente
-            "",           // nombreServicio
-            "",           // nombreSede
-            ""            // nombreLocalidad
+            null, null, null, null, "", "PENDIENTE", null, "", "", "", ""
         );
 
         mav.addObject("turno", turnoDTO);
         mav.addObject("clientes", clienteService.findAll());
         mav.addObject("servicios", servicioService.findAll());
+        mav.addObject("sedes", sedeService.findAll());
+
         return mav;
     }
 
@@ -80,28 +75,20 @@ public class AdminTurnoController {
         ModelAndView mav = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            // Si hay errores, volvemos al formulario y mostramos mensajes
             mav.setViewName("adminTurno/register");
             mav.addObject("clientes", clienteService.findAll());
             mav.addObject("servicios", servicioService.findAll());
-
-            // Si tenés sedes para elegir, también agregalas
-            // Por ahora asumimos que la sede viene solo para mostrar, no para elegir
+            mav.addObject("sedes", sedeService.findAll());
             return mav;
         }
 
-        // Convertir DTO a entidad
         Turno turno = turnoService.toEntity(turnoDTO);
         turnoService.save(turno);
 
-        // Redirigir al index
         mav.setViewName("redirect:/adminTurno/index");
         return mav;
     }
 
-
-
-    // EDITAR - muestra el formulario con datos cargados para editar
     @GetMapping("/editar/{id}")
     public ModelAndView editarTurno(@PathVariable Integer id) {
         Turno turno = turnoService.findById(id);
@@ -110,14 +97,14 @@ public class AdminTurnoController {
         }
         TurnoGestionDTO dto = turnoService.toDTO(turno);
 
-        ModelAndView mav = new ModelAndView("adminTurno/register");
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.ADMINTURNO_FORM);
         mav.addObject("turno", dto);
         mav.addObject("clientes", clienteService.findAll());
         mav.addObject("servicios", servicioService.findAll());
+        mav.addObject("sedes", sedeService.findAll());
         return mav;
     }
 
-    // ELIMINAR
     @GetMapping("/eliminar/{id}")
     public ModelAndView eliminarTurno(@PathVariable Integer id) {
         turnoService.deleteById(id);

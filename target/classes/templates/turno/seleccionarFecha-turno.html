@@ -45,6 +45,12 @@
             box-shadow: 0 4px 12px rgb(52 152 219 / 0.6);
             font-weight: 600;
         }
+
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -67,13 +73,17 @@
     <!-- Contenedor principal -->
     <div class="container">
         <h1 class="text-center">SELECCIONAR FECHA</h1>
-        <form th:action="@{/turno/seleccionar-horario}" method="post">
+
+        <!-- Mostrar error si existe -->
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <form th:action="@{/turno/seleccionar-horario}" method="post" id="fechaForm">
             <input type="hidden" name="servicioId" th:value="${servicioId}" />
             <input type="hidden" name="sedeId" th:value="${sedeId}" />
 
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha:</label>
-                <input type="text" id="fecha" class="form-control" name="fecha" required />
+                <input type="text" id="fecha" class="form-control" name="fecha" required th:value="${fecha}" />
             </div>
 
             <div class="d-grid">
@@ -89,9 +99,20 @@
         flatpickr("#fecha", {
             dateFormat: "Y-m-d",
             enable: fechasDisponibles,
-            locale: { firstDayOfWeek: 1 }
+            locale: { firstDayOfWeek: 1 },
+            allowInput: false
         });
         /*]]>*/
+    </script>
+
+    <script>
+        document.getElementById("fechaForm").addEventListener("submit", function (e) {
+            const fecha = document.getElementById("fecha").value.trim();
+            if (!fecha) {
+                e.preventDefault();
+                alert("⚠️ Por favor, seleccioná una fecha antes de continuar.");
+            }
+        });
     </script>
 </body>
 

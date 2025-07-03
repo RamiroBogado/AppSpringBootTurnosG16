@@ -146,4 +146,10 @@ public class TurnoServiceImplementation implements TurnoServiceInterface {
 	    }
 	}
 
+	@Override
+	public List<Turno> findByClienteCliente(Cliente cliente) {
+	    return turnoRepository.findByCliente(cliente);
+	}
+
+
 }
