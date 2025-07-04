@@ -2,6 +2,7 @@ package com.unla.tp_oo2_g16.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 
+import com.unla.tp_oo2_g16.dtos.ServicioDTO;
 import com.unla.tp_oo2_g16.models.entities.Sede;
 import com.unla.tp_oo2_g16.models.entities.Servicio;
 import com.unla.tp_oo2_g16.repositories.ServicioRepository;
@@ -42,6 +43,23 @@ public class ServicioServiceImpl implements ServicioServiceInterface {
     public Set<Sede> findSedesByServicio(Servicio servicio) {
         return servicio.getSedes();
     }
+
+
+    @Override
+    public ServicioDTO toDTO(Servicio servicio) {
+        if (servicio == null) return null;
+        return new ServicioDTO(servicio.getIdServicio(), servicio.getNombre());
+    }
+
+    @Override
+    public Servicio toEntity(ServicioDTO dto) {
+        if (dto == null) return null;
+        Servicio servicio = new Servicio();
+        servicio.setIdServicio(dto.idServicio());
+        servicio.setNombre(dto.nombre());
+        return servicio;
+    }
+
 
     
 }

@@ -12,10 +12,9 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: white;
             margin: 0;
-            padding-top: 56px; /* para que no tape el navbar */
+            padding-top: 56px;
         }
 
-        /* Navbar custom */
         nav.navbar {
             position: fixed;
             top: 0;
@@ -88,6 +87,12 @@
         <form th:action="@{/turno/anular-turno}" method="get">
             <button type="submit" class="btn btn-primary">
                 Anular Turno
+            </button>
+        </form>
+
+        <form th:action="@{/turno/mis-turnos}" method="get">
+            <button type="submit" class="btn btn-primary">
+                Mis Turnos
             </button>
         </form>
     </div>

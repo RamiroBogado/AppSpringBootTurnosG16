@@ -14,6 +14,6 @@ public class AdminController {
     // Página principal del admin
     @GetMapping("/panel")
     public ModelAndView adminIndex() {
-        return new ModelAndView(ViewRouteHelper.ADMIN_PANEL);  // Thymeleaf: src/main/resources/templates/admin/index.html
+        return new ModelAndView(ViewRouteHelper.ADMIN_PANEL); 
     }
 }

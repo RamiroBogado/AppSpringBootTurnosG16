@@ -46,8 +46,6 @@ public class AdminClienteController {
         return mav;
     }
 
-
-
     @GetMapping("/nuevo")
     public String nuevoCliente(Model model) {
         model.addAttribute("cliente", new ClienteDTO(null, "", "", "", null, false, "", ""));
@@ -83,7 +81,7 @@ public class AdminClienteController {
         clienteService.editado(cliente);
         return "redirect:/cliente/index";
     }
-
+    
     @GetMapping("/editar/{id}")
     public String editarCliente(@PathVariable Integer id, Model model) {
         Cliente cliente = clienteService.findById(id);

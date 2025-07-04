@@ -77,8 +77,6 @@ public class TurnoController {
 	    return mav;
 	}
 
-
-	
 	@PostMapping("/seleccionar-sede")
 	@PreAuthorize("hasAnyRole('USER')")
 	public ModelAndView seleccionarSede(@RequestParam int servicioId) {
@@ -121,6 +119,7 @@ public class TurnoController {
 
 	    return mav;
 	}
+
 
 	@PostMapping("/seleccionar-horario")
 	@PreAuthorize("hasAnyRole('USER')")
@@ -225,5 +224,38 @@ public class TurnoController {
 
 	    return new ModelAndView(ViewRouteHelper.ANULACIONCORRECTA_TURNO);
 	}
+	
+	@GetMapping("/mis-turnos")
+	@PreAuthorize("hasAnyRole('USER')")
+	public ModelAndView verMisTurnos(
+	        Principal principal,
+	        @RequestParam(required = false) String estado,
+	        @RequestParam(required = false) String fechaHora) {
+
+	    ModelAndView mav = new ModelAndView(ViewRouteHelper.MIS_TURNOS);
+
+	    Cliente cliente = clienteService.findByEmail(principal.getName());
+	    List<Turno> turnos = turnoService.findByClienteCliente(cliente);
+
+	    // Filtros simples
+	    if (estado != null && !estado.isEmpty()) {
+	        turnos = turnos.stream()
+	                .filter(t -> estado.equalsIgnoreCase(t.getEstado()))
+	                .collect(Collectors.toList());
+	    }
+
+	    if (fechaHora != null && !fechaHora.isEmpty()) {
+	        turnos = turnos.stream()
+	                .filter(t -> t.getFechaHora().toString().contains(fechaHora))
+	                .collect(Collectors.toList());
+	    }
+
+	    mav.addObject("turnos", turnos);
+	    mav.addObject("estado", estado);
+	    mav.addObject("fechaHora", fechaHora);
+	    return mav;
+	}
+
+
 
 }

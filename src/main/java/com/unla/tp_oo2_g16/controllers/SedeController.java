@@ -55,7 +55,7 @@ public class SedeController {
     @PostMapping("/guardar")
     public ModelAndView guardarSede(@ModelAttribute("sede") Sede sedeAux){
         sedeService.editado(sedeAux);
-        return new ModelAndView("redirect:/sede/idex");
+        return new ModelAndView("redirect:/sede/index");
     }
 
     @GetMapping("/editar/{id}")
