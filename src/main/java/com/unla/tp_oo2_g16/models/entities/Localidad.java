@@ -5,11 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "localidad")
 @Data
 @NoArgsConstructor
 @Getter
@@ -20,11 +22,16 @@ public class Localidad {
     @Column(name = "id_localidad")
 	private Integer idLocalidad;
     
-	private String localidad;
+	@Column(name = "nombre")
+	private String nombre;
+	
+	@Column(name = "codigo_postal")
+	private String cp;
 
-	public Localidad(String localidad) {
+	public Localidad(String nombre, String cp) {
 		super();
-		this.localidad = localidad;
+		this.nombre = nombre;
+		this.cp = cp;
 	}
 
 	

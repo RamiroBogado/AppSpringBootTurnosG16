@@ -91,7 +91,7 @@ public class TurnoController {
 	        .map(sede -> new SedeDTO(
 	            sede.getIdSede(),
 	            sede.getDireccion(),
-	            sede.getLocalidad().getLocalidad() // nombre de la localidad
+	            sede.getLocalidad() // nombre de la localidad
 	        ))
 	        .collect(Collectors.toList());
 

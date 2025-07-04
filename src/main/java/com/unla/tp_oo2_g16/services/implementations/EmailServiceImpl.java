@@ -74,7 +74,7 @@ public class EmailServiceImpl implements EmailServiceInterface{
                     turno.getFechaHora().toString(),
                     turno.getCodigoTurno(),
                     sede.getDireccion(),
-                    sede.getLocalidad().getLocalidad()
+                    sede.getLocalidad().getNombre()
                 );
     }
 	

@@ -106,7 +106,7 @@ public class TurnoServiceImplementation implements TurnoServiceInterface {
             turno.getCliente().getNombre() + " " + turno.getCliente().getApellido(),
             turno.getServicio().getNombre(),
             sede != null ? sede.getDireccion() : "",
-            sede != null && sede.getLocalidad() != null ? sede.getLocalidad().getLocalidad() : ""
+            sede != null && sede.getLocalidad() != null ? sede.getLocalidad().getNombre() : ""
         );
     }
 

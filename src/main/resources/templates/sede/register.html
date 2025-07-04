@@ -67,11 +67,16 @@
         </div>
 
         <!-- Localidad -->
-        <div class="mb-3">
-            <label class="form-label">Localidad</label>
-            <input type="text" class="form-control" th:field="*{localidad}" placeholder="Ej: Avellaneda" required>
-            <div class="text-danger" th:if="${#fields.hasErrors('localidad')}" th:errors="*{localidad}"></div>
-        </div>
+        <!-- <div class="mb-3">
+            <label for="localidadId" class="form-label">Localidad:</label>
+            <select class="form-select" id="localidadId" name="localidadId" required>
+                <option value="" disabled selected>-- Seleccione --</option>
+				<option th:each="s : ${localidades}"
+					    th:value="${l.idlocalidad}"
+					    th:text="|${l.nombre} (${l.cp})|">
+				</option>
+            </select>
+        </div> -->
 
         <!-- Botones -->
         <div class="d-flex justify-content-end gap-2">

@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.unla.tp_oo2_g16.dtos.SedeDTO;
 import com.unla.tp_oo2_g16.models.entities.Sede;
 import com.unla.tp_oo2_g16.repositories.SedeRepository;
 import com.unla.tp_oo2_g16.services.interfaces.SedeServiceInterface;
@@ -64,4 +65,22 @@ public class SedeServiceImpl implements SedeServiceInterface {
         return sedeRepository.save(sede);
     }
 
+    public List<Sede> findAllByOrderByDireccionAsc(){
+        return sedeRepository.findAllByOrderByDireccionAsc();
+    }
+
+    public SedeDTO toDTO(Sede s){
+        if(s == null) return null;
+
+        return new SedeDTO(s.getIdSede(), s.getDireccion(), s.getLocalidad());
+    }
+
+    public Sede toEntity(SedeDTO dto){
+        if(dto == null) return null;
+        Sede s = new Sede();
+        s.setIdSede(dto.idSede());
+        s.setDireccion(dto.direccion());
+        s.setLocalidad(dto.localidad());
+        return s;
+    }
 }

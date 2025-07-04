@@ -14,7 +14,10 @@ public interface SedeRepository extends JpaRepository<Sede, Integer> {
 		
     @Query("SELECT s FROM Sede s WHERE " +
             "LOWER(s.direccion) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
-            "LOWER(s.localidad.localidad) LIKE LOWER(CONCAT('%', :filtro, '%'))")
+            "LOWER(s.localidad.nombre) LIKE LOWER(CONCAT('%', :filtro, '%'))")
         List<Sede> buscarPorFiltro(@Param("filtro") String filtro);
+
+    
+    List<Sede> findAllByOrderByDireccionAsc();
 
 }

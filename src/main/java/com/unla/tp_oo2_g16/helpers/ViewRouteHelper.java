@@ -37,6 +37,11 @@ public class ViewRouteHelper {
 	public static final String SEDE_INDEX = "sede/index";
 	public static final String SEDE_REGISTER = "sede/register";
 	public static final String SEDE_FORM = "sede/form";
+
+	/**** LOCALIDAD	****/
+	public static final String LOCALIDAD_INDEX = "localidad/index";
+	public static final String LOCALIDAD_REGISTER = "localidad/register";
+	public static final String LOCALIDAD_FORM = "localidad/form";
 }
 
 

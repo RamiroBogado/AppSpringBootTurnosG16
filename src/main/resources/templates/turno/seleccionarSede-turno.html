@@ -77,7 +77,7 @@
                     <option value="" disabled selected>-- Seleccione --</option>
 					<option th:each="s : ${sedes}"
 					        th:value="${s.idSede}"
-					        th:text="|${s.direccion} - ${s.localidadNombre}|">
+					        th:text="|${s.direccion} - ${s.localidad.nombre} (${s.localidad.cp})|">
 					</option>
                 </select>
             </div>

@@ -4,6 +4,7 @@ package com.unla.tp_oo2_g16.services.interfaces;
 import java.util.List;
 import java.util.Set;
 
+import com.unla.tp_oo2_g16.dtos.SedeDTO;
 import com.unla.tp_oo2_g16.models.entities.Sede;
 
 public interface SedeServiceInterface {
@@ -15,5 +16,10 @@ public interface SedeServiceInterface {
     void deleteById(Integer id);
     List<Sede> buscarPorDireccionOLocalidad(String filtro);
     Sede editado(Sede sede);
+
+    List<Sede> findAllByOrderByDireccionAsc();
+
+    SedeDTO toDTO(Sede s);
+    Sede toEntity(SedeDTO dto);
 
 }

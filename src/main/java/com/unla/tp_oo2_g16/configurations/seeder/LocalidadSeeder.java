@@ -20,9 +20,9 @@ public class LocalidadSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (localidadRepository.count() == 0) {
-            localidadRepository.save(new Localidad("Lomas de Zamora"));
-            localidadRepository.save(new Localidad("Temperley"));
-            localidadRepository.save(new Localidad("Banfield"));
+            localidadRepository.save(new Localidad("Lomas de Zamora", "1832"));
+            localidadRepository.save(new Localidad("Temperley", "1834"));
+            localidadRepository.save(new Localidad("Banfield", "1828"));
         }
     }
 }
