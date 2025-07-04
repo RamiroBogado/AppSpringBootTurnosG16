@@ -27,7 +27,8 @@ public class ViewRouteHelper {
 	
 	/**** ADMINTURNO ****/
 	public static final String ADMINTURNO_REGISTER = "adminTurno/register";
-	public static final String ADMINTURNO_FORM = "adminTurno/form";
+	public static final String ADMINTURNO_FORM =  "adminTurno/form";
+	public static final String ADMINTURNO_INDEX = "adminTurno/index";
 	
 	/**** CLIENTE ****/
 	public static final String CLIENTE_INDEX = "cliente/index";

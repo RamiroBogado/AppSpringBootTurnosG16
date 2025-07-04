@@ -38,7 +38,7 @@ public class AdminTurnoController {
     public ModelAndView listarTurnos(
             @RequestParam(required = false) String filtro,
             @RequestParam(required = false) String estado) {
-        ModelAndView mav = new ModelAndView("adminTurno/index");
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.ADMINTURNO_INDEX);
 
         List<Turno> turnos = turnoService.buscarPorFiltroYEstado(filtro, estado);
         List<TurnoGestionDTO> turnosDTO = turnos.stream()
