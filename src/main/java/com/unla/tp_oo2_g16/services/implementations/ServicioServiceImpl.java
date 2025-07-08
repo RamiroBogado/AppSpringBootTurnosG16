@@ -60,6 +60,8 @@ public class ServicioServiceImpl implements ServicioServiceInterface {
         return servicio;
     }
 
-
+    public List<Servicio> findByIdWithSedes(Integer id){
+        return servicioRepository.findByIdWithSedes(id);
+    }
     
 }

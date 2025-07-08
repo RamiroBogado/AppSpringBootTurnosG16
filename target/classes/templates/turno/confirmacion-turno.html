@@ -49,7 +49,7 @@
 
             <p>
                 <strong>Sede:</strong> 
-                <span th:text="${sedeSeleccionada.direccion + ' - ' + sedeSeleccionada.localidad.localidad}">
+                <span th:text="${sedeSeleccionada.direccion + ' - ' + sedeSeleccionada.localidad.nombre + ' (' + sedeSeleccionada.localidad.cp + ')'}">
                     Dirección Sede
                 </span>
             </p>
