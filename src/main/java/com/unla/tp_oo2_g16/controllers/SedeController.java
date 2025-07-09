@@ -97,8 +97,19 @@ public class SedeController {
         Sede sede = sedeService.findById(idAux);
         if(sede==null) return new ModelAndView("redirect:/sede/index");
 
+        SedeDTO dto = sedeService.toDTO(sede);
         ModelAndView mav = new ModelAndView(ViewRouteHelper.SEDE_FORM);
-        mav.addObject("sede", sedeService.findById(idAux));
+        List<LocalidadDTO> localidadesDTO = localidadService.findAll().stream()
+                            .map(localidad -> new LocalidadDTO(
+                                localidad.getIdLocalidad(), 
+                                localidad.getNombre(), 
+                                localidad.getCp()))
+                                .sorted(Comparator.comparing(LocalidadDTO::nombre))
+                                .collect(Collectors.toList());
+
+
+        mav.addObject("localidades", localidadesDTO);
+        mav.addObject("sede", dto);
         return mav;
     }
     

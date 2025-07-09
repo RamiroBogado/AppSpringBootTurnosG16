@@ -20,4 +20,6 @@ public interface SedeRepository extends JpaRepository<Sede, Integer> {
     
     List<Sede> findAllByOrderByDireccionAsc();
 
+    boolean existsByLocalidad_IdLocalidad(Integer idLocalidad);
+
 }

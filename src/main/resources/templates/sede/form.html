@@ -56,8 +56,20 @@
         <label>Dirección</label>
         <input type="text" class="form-control" th:field="*{direccion}" required />
 
-        <label>Localidad</label>
-        <input type="text" class="form-control" th:field="*{localidad.localidad}" required />
+        <!--<label>Localidad</label>
+        <input type="text" class="form-control" th:field="*{localidad.nombre}" required />-->
+        <!-- Localidad -->
+        <div class="mb-3">
+            <label class="form-label">Localidad:</label>
+            <select class="form-select" th:field="*{idLocalidad}" required>
+                <option value="" disabled selected>-- Seleccione --</option>
+                <option th:each="l : ${localidades}"
+                        th:value="${l.idLocalidad}"
+                        th:text="|${l.nombre} (${l.cp})|">
+                </option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('idLocalidad')}" th:errors="*{idLocalidad}"></div>
+        </div>
 
         <button type="submit" class="btn btn-success w-100">Guardar</button>
         <a th:href="@{/sede/index}" class="btn btn-secondary w-100 mt-2">Cancelar</a>

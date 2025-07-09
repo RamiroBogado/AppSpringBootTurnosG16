@@ -13,9 +13,12 @@ public interface LocalidadServiceInterface {
     List<Localidad> findAllByOrderByCpAsc();
     Localidad save(Localidad localidad);
     Localidad editado(Localidad localidad);
+    void borrarLocalidad(Integer idLocalidad);
+    void verificarYEliminarLocalidad(Integer idLocalidad);
 
     boolean existsByCp(String cp);
     boolean existsByCpAndIdLocalidadNot(String cp, Integer idLocalidad);
+    boolean tieneSedesAsociadas(Integer idLocalidad);
 
     LocalidadDTO toDTO(Localidad l);
     Localidad toEntity(LocalidadDTO dto);
