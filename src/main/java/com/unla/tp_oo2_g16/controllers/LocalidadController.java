@@ -1,6 +1,7 @@
 package com.unla.tp_oo2_g16.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import com.unla.tp_oo2_g16.helpers.ViewRouteHelper;
 import com.unla.tp_oo2_g16.models.entities.Localidad;
 import com.unla.tp_oo2_g16.services.interfaces.LocalidadServiceInterface;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -89,11 +92,35 @@ public class LocalidadController {
         return mav;
     }
 
-    @GetMapping("/eliminar/{id}")
-    public ModelAndView eliminarLocalidad(@PathVariable("id") Integer idAux){
-        localidadService.deleteById(idAux);
-        return new ModelAndView("redirect:/localidad/index");
+    @PostMapping("/eliminar/{id}")  // Cambiado a POST para mejor práctica
+    public ModelAndView eliminarLocalidad(
+        @PathVariable Integer id, 
+        RedirectAttributes redirectAttributes) {
+        
+        ModelAndView mav = new ModelAndView("redirect:/localidad/index");  // Corregido el redirect
+        
+        try {
+            // Verificar y eliminar
+            localidadService.verificarYEliminarLocalidad(id);
+            redirectAttributes.addFlashAttribute("success", "Localidad eliminada correctamente");
+            
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("error", 
+                "No se puede eliminar la localidad porque tiene sedes asociadas");
+                
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("error", 
+                "Localidad no encontrada");
+                
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", 
+                "Error al eliminar la localidad: " + e.getMessage());
+        }
+        
+        return mav;
     }
+    
+    
     
     
 

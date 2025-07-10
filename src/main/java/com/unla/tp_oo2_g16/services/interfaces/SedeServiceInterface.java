@@ -19,7 +19,11 @@ public interface SedeServiceInterface {
 
     List<Sede> findAllByOrderByDireccionAsc();
 
+    void crearSede(SedeDTO sedeDTO);
+
     SedeDTO toDTO(Sede s);
     Sede toEntity(SedeDTO dto);
+    void guardarSede(SedeDTO sedeDTO);
+    void eliminarSede(Integer id);
 
 }

@@ -71,13 +71,15 @@
             <tr>
                 <th>Dirección</th>
                 <th>Localidad</th>
+                <th>Código postal</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="sede : ${sedes}">
-                <td th:text="${sede.direccion}">Dirección</td>
-                <td th:text="${sede.localidad.localidad}">Localidad</td>
+                <td th:text="${sede.direccion()}">Dirección</td>
+                <td th:text="${sede.nombreLocalidad()}">Localidad</td>
+                <td th:text="${sede.cpLocalidad()}">Código postal</td>
                 <td>
                     <a th:href="@{'/sede/editar/' + ${sede.idSede}}" class="btn btn-warning btn-sm">Editar</a>
                     <a th:href="@{'/sede/eliminar/' + ${sede.idSede}}" class="btn btn-danger btn-sm"
@@ -85,7 +87,7 @@
                 </td>
             </tr>
         </tbody>
-    </table>
+    </table> 
 </div>
 </body>
 </html>

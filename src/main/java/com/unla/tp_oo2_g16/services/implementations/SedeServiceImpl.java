@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unla.tp_oo2_g16.dtos.SedeDTO;
+import com.unla.tp_oo2_g16.models.entities.Localidad;
 import com.unla.tp_oo2_g16.models.entities.Sede;
+import com.unla.tp_oo2_g16.repositories.LocalidadRepository;
 import com.unla.tp_oo2_g16.repositories.SedeRepository;
 import com.unla.tp_oo2_g16.services.interfaces.SedeServiceInterface;
 
@@ -17,6 +19,8 @@ public class SedeServiceImpl implements SedeServiceInterface {
 
     @Autowired
     private SedeRepository sedeRepository;
+    @Autowired
+    private LocalidadRepository localidadRepository;
 
     @Override
     public List<Sede> findAll() {
@@ -69,18 +73,59 @@ public class SedeServiceImpl implements SedeServiceInterface {
         return sedeRepository.findAllByOrderByDireccionAsc();
     }
 
+    public void crearSede(SedeDTO sedeDTO){
+        Localidad l = localidadRepository.findById(sedeDTO.idLocalidad()).orElseThrow(() -> new IllegalArgumentException("Localidad inválida"));
+        Sede sede = new Sede();
+        sede.setDireccion(sedeDTO.direccion());
+        sede.setLocalidad(l);
+        sedeRepository.save(sede);
+    }
+
     public SedeDTO toDTO(Sede s){
         if(s == null) return null;
 
-        return new SedeDTO(s.getIdSede(), s.getDireccion(), s.getLocalidad());
+        SedeDTO dto = new SedeDTO(s.getIdSede(), s.getDireccion(), s.getLocalidad().getIdLocalidad(), s.getLocalidad().getNombre(), s.getLocalidad().getCp());
+        return dto;
     }
 
     public Sede toEntity(SedeDTO dto){
         if(dto == null) return null;
+
         Sede s = new Sede();
         s.setIdSede(dto.idSede());
         s.setDireccion(dto.direccion());
-        s.setLocalidad(dto.localidad());
+        if (dto.idLocalidad() != null) {
+            Localidad localidad = new Localidad();
+            localidad.setIdLocalidad(dto.idLocalidad());
+            s.setLocalidad(localidad);
+        }
         return s;
     }
+
+    public void guardarSede(SedeDTO sedeDTO) {
+        Localidad localidad = localidadRepository.findById(sedeDTO.idLocalidad())
+                .orElseThrow(() -> new IllegalArgumentException("Localidad no encontrada"));
+        
+        Sede sede = new Sede();
+        sede.setIdSede(sedeDTO.idSede());
+        sede.setDireccion(sedeDTO.direccion());
+        sede.setLocalidad(localidad);
+        
+        sedeRepository.save(sede);
+    }
+
+    public void eliminarSede(Integer id) {
+        Sede sede = sedeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Sede no encontrada"));
+        
+        // Verificación adicional para restricciones de integridad
+        /*if (tieneRegistrosAsociados(id)) {
+            throw new DataIntegrityViolationException(
+                "Existen registros asociados a esta sede");
+        }*/
+        
+        sedeRepository.delete(sede);
+    }
+
+
 }

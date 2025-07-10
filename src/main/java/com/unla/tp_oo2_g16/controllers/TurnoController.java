@@ -89,7 +89,9 @@ public class TurnoController {
 	        .map(sede -> new SedeDTO(
 	            sede.getIdSede(),
 	            sede.getDireccion(),
-	            sede.getLocalidad() // nombre de la localidad
+	            sede.getLocalidad().getIdLocalidad(),
+				sede.getLocalidad().getNombre(),
+				sede.getLocalidad().getCp()
 	        ))
 	        .collect(Collectors.toList());
 
@@ -100,6 +102,7 @@ public class TurnoController {
 	    mav.addObject("sedes", sedesDTO);
 
 	    return mav;
+		
 	}
 
 	@PostMapping("/seleccionar-fecha")

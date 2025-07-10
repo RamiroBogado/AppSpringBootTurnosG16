@@ -3,12 +3,15 @@ package com.unla.tp_oo2_g16.services.implementations;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import com.unla.tp_oo2_g16.dtos.LocalidadDTO;
 import com.unla.tp_oo2_g16.models.entities.Localidad;
 import com.unla.tp_oo2_g16.repositories.LocalidadRepository;
+import com.unla.tp_oo2_g16.repositories.SedeRepository;
 import com.unla.tp_oo2_g16.services.interfaces.LocalidadServiceInterface;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,7 +21,8 @@ public class LocalidadServiceImpl implements LocalidadServiceInterface{
 
     @Autowired
     private LocalidadRepository localidadRepository;
-
+    @Autowired
+    private SedeRepository sedeRepository;
 
     @Override
     public List<Localidad> findAll() {
@@ -71,6 +75,16 @@ public class LocalidadServiceImpl implements LocalidadServiceInterface{
         return localidadRepository.existsByCpAndIdLocalidadNot(cp, idLocalidad);
     }
 
+    public void borrarLocalidad(Integer idLocalidad){
+        Localidad l = localidadRepository.findById(idLocalidad).orElseThrow(() -> new EntityNotFoundException("Localidad no encontrada"));
+        if(tieneSedesAsociadas(idLocalidad)) throw new IllegalStateException("No se puede eliminar la localidad porque tiene sedes asociadas");
+        localidadRepository.delete(l);
+    }
+
+    public boolean tieneSedesAsociadas(Integer idLocalidad){
+        return sedeRepository.existsByLocalidad_IdLocalidad(idLocalidad);
+    }
+
     public LocalidadDTO toDTO(Localidad l){
         if(l == null) return null;
         return new LocalidadDTO(l.getIdLocalidad(), l.getNombre(), l.getCp());
@@ -85,6 +99,21 @@ public class LocalidadServiceImpl implements LocalidadServiceInterface{
         l.setCp(dto.cp());
 
         return l;
+    }
+
+    public void verificarYEliminarLocalidad(Integer idLocalidad) {
+        // Verificar si existe la localidad
+        Localidad localidad = localidadRepository.findById(idLocalidad)
+            .orElseThrow(() -> new EntityNotFoundException("Localidad no encontrada"));
+        
+        // Verificar si tiene sedes asociadas
+        if (sedeRepository.existsByLocalidad_IdLocalidad(idLocalidad)) {
+            throw new DataIntegrityViolationException(
+                "Existen sedes asociadas a esta localidad");
+        }
+        
+        // Si pasa las validaciones, eliminar
+        localidadRepository.delete(localidad);
     }
 
 }

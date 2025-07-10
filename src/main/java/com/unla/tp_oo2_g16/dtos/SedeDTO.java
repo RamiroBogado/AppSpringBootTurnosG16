@@ -1,8 +1,7 @@
 package com.unla.tp_oo2_g16.dtos;
 
-import com.unla.tp_oo2_g16.models.entities.Localidad;
-
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record SedeDTO(
     Integer idSede, 
@@ -10,7 +9,10 @@ public record SedeDTO(
     @NotBlank(message = "La dirección es obligatoria")
     String direccion, 
     
-    @NotBlank(message = "La localidad es obligatoria")
-    Localidad localidad
+    @NotNull(message = "Debe seleccionar una localidad")
+    Integer idLocalidad,
+
+    String nombreLocalidad,
+    String cpLocalidad
     
 ) { }
