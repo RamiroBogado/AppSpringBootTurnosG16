@@ -88,7 +88,7 @@
             <td th:text="${turno.codigoTurno}">ABCD1234</td>
             <td th:text="${turno.servicio.nombre}">Consulta</td>
             <td th:text="${turno.servicio.sedes[0].direccion}">Av. Rivadavia 1234</td>
-            <td th:text="${turno.servicio.sedes[0].localidad.localidad}">Lanús</td>
+            <td th:text="${turno.servicio.sedes[0].localidad.nombre}">Lanús</td>
             <td th:text="${#temporals.format(turno.fechaHora, 'dd/MM/yyyy HH:mm')}">01/07/2025 10:00</td>
             <td th:text="${turno.estado}">PENDIENTE</td>
             <td>

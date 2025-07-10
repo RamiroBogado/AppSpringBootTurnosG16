@@ -91,6 +91,7 @@ public class TurnoServiceImplementation implements TurnoServiceInterface {
     // ...
 
     public TurnoGestionDTO toDTO(Turno turno) {
+    	
         // Obtener la primera sede del servicio (si existe)
         Sede sede = turno.getServicio().getSedes().stream().findFirst().orElse(null);
 
@@ -98,7 +99,9 @@ public class TurnoServiceImplementation implements TurnoServiceInterface {
             turno.getIdTurno(),
             turno.getCliente().getIdPersona(),
             turno.getServicio().getIdServicio(),
+            
             sede != null ? sede.getIdSede() : null,
+            		
             // Formatear fechaHora para input datetime-local
             turno.getFechaHora().format(FORMATO_FECHA_HORA),
             turno.getEstado(),

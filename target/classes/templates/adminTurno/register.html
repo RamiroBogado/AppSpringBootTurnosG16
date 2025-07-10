@@ -87,7 +87,7 @@
             <label>Sede</label>
             <select th:field="*{idSede}" class="form-select" required>
                 <option value="">-- Seleccionar sede --</option>
-                <option th:each="s : ${sedes}" th:value="${s.idSede}" th:text="${s.direccion + ' - ' + s.localidad.localidad}"></option>
+                <option th:each="s : ${sedes}" th:value="${s.idSede}" th:text="${s.direccion + ' - ' + s.localidad.nombre}"></option>
             </select>
             <div class="text-danger" th:errors="*{idSede}"></div>
         </div>

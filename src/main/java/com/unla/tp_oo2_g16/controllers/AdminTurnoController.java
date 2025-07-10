@@ -73,16 +73,13 @@ public class AdminTurnoController {
         BindingResult bindingResult) {
 
         ModelAndView mav = new ModelAndView();
-
-        if (bindingResult.hasErrors()) {
-            mav.setViewName("adminTurno/register");
-            mav.addObject("clientes", clienteService.findAll());
-            mav.addObject("servicios", servicioService.findAll());
-            mav.addObject("sedes", sedeService.findAll());
-            return mav;
-        }
-
+        
         Turno turno = turnoService.toEntity(turnoDTO);
+        
+        if(turno.getEstado() == null) {
+        	
+        	turno.setEstado("PENDIENTE");
+        }
         turnoService.save(turno);
 
         mav.setViewName("redirect:/adminTurno/index");
