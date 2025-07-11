@@ -23,6 +23,9 @@ public class ServicioServiceImpl implements ServicioServiceInterface {
         return servicioRepository.findAll();
     }
 
+    public List<Servicio> findAllByOrderByNombreAsc(){
+        return servicioRepository.findAllByOrderByNombreAsc();
+    }
     
     @Override
     public Servicio findById(Integer id) {
@@ -31,6 +34,21 @@ public class ServicioServiceImpl implements ServicioServiceInterface {
       
     @Override
     public Servicio save(Servicio servicio) {
+        return servicioRepository.save(servicio);
+    }
+
+    @Override
+    public Servicio editado(Servicio servicio){
+        if(servicio.getIdServicio()!=null){
+            Servicio servicioOriginal = servicioRepository.findById(servicio.getIdServicio()).orElseThrow();
+
+            servicioOriginal.setDescripcion(servicio.getDescripcion());
+            servicioOriginal.setNombre(servicio.getNombre());
+            servicioOriginal.setDuracion(servicio.getDuracion());
+
+            return servicioRepository.save(servicioOriginal);
+        }
+
         return servicioRepository.save(servicio);
     }
     
@@ -44,11 +62,20 @@ public class ServicioServiceImpl implements ServicioServiceInterface {
         return servicio.getSedes();
     }
 
+    @Override
+    public boolean existsByNombre(String nombre){
+        return servicioRepository.existsByNombre(nombre);
+    }
+
+    @Override
+    public boolean existsByNombreAndIdServicioNot(String nombre, Integer idServicio){
+        return servicioRepository.existsByNombreAndIdServicioNot(nombre, idServicio);
+    }
 
     @Override
     public ServicioDTO toDTO(Servicio servicio) {
         if (servicio == null) return null;
-        return new ServicioDTO(servicio.getIdServicio(), servicio.getNombre());
+        return new ServicioDTO(servicio.getIdServicio(), servicio.getNombre(), servicio.getDescripcion(), servicio.getDuracion());
     }
 
     @Override
@@ -57,6 +84,8 @@ public class ServicioServiceImpl implements ServicioServiceInterface {
         Servicio servicio = new Servicio();
         servicio.setIdServicio(dto.idServicio());
         servicio.setNombre(dto.nombre());
+        servicio.setDescripcion(dto.descripcion());
+        servicio.setDuracion(dto.duracionMinutos());
         return servicio;
     }
 

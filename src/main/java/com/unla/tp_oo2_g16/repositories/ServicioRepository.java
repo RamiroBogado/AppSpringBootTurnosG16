@@ -17,4 +17,9 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
             "WHERE s.idServicio = :id")
     List<Servicio> findByIdWithSedes(@Param("id") Integer id);
 
+    List<Servicio> findAllByOrderByNombreAsc();
+
+    boolean existsByNombre(String nombre);
+    boolean existsByNombreAndIdServicioNot(String nombre, Integer idServicio);
+
 }

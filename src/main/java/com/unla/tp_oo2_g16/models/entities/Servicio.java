@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+//import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "servicios")
@@ -35,7 +35,7 @@ public class Servicio {
     private Set<Disponibilidad> disponibilidades;
     
     // Relación ManyToMany con Sede 
-    @NotNull
+    //@NotNull <---------
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "servicio_sedes",

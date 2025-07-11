@@ -70,7 +70,7 @@ public class TurnoController {
 	    ModelAndView mav = new ModelAndView(ViewRouteHelper.SELECCIONARSERVICIO_TURNO);
 
 	    List<ServicioDTO> serviciosDTO = servicioService.findAll().stream()
-	        .map(servicio -> new ServicioDTO(servicio.getIdServicio(), servicio.getNombre()))
+	        .map(servicio -> new ServicioDTO(servicio.getIdServicio(), servicio.getNombre(), servicio.getDescripcion(), servicio.getDuracion()))
 	        .collect(Collectors.toList());
 
 	    mav.addObject("servicios", serviciosDTO);
@@ -96,7 +96,7 @@ public class TurnoController {
 	        .collect(Collectors.toList());
 
 	    // Pasamos el servicio (puede ser la entidad o un DTO según lo uses)
-	    ServicioDTO servicioDTO = new ServicioDTO(servicio.getIdServicio(), servicio.getNombre());
+	    ServicioDTO servicioDTO = new ServicioDTO(servicio.getIdServicio(), servicio.getNombre(), servicio.getDescripcion(), servicio.getDuracion());
 
 	    mav.addObject("servicio", servicioDTO);
 	    mav.addObject("sedes", sedesDTO);
