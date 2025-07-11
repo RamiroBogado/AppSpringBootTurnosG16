@@ -47,31 +47,9 @@
 </nav>
 
 <div class="form-box mt-5">
-    <h2 class="text-center text-white mb-4" th:text="${sede.idSede == null ? 'Nueva Sede' : 'Editar Sede'}"></h2>
+    <h2 class="text-center text-white mb-4" th:text="${servicio.idServicio == null ? 'Nuevo Servicio' : 'Editar Servicio'}"></h2>
 
-    <form th:action="@{/sede/guardar}" method="post" th:object="${sede}">
-        
-        <input type="hidden" th:field="*{idSede}" />
-
-        <label>Dirección</label>
-        <input type="text" class="form-control" th:field="*{direccion}" required />
-
-        <!-- Localidad -->
-        <div class="mb-3">
-            <label class="form-label">Localidad:</label>
-            <select class="form-select" th:field="*{idLocalidad}" required>
-                <option value="" disabled selected>-- Seleccione --</option>
-                <option th:each="l : ${localidades}"
-                        th:value="${l.idLocalidad}"
-                        th:text="|${l.nombre} (${l.cp})|">
-                </option>
-            </select>
-            <div class="text-danger" th:if="${#fields.hasErrors('idLocalidad')}" th:errors="*{idLocalidad}"></div>
-        </div>
-
-        <button type="submit" class="btn btn-success w-100">Guardar</button>
-        <a th:href="@{/sede/index}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
-    </form>
+    
 </div>
 </body>
 </html>

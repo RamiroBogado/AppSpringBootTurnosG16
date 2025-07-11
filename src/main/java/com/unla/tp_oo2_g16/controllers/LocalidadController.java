@@ -97,7 +97,7 @@ public class LocalidadController {
         @PathVariable Integer id, 
         RedirectAttributes redirectAttributes) {
         
-        ModelAndView mav = new ModelAndView("redirect:/localidad/index");  // Corregido el redirect
+        ModelAndView mav = new ModelAndView("redirect:/localidad/index");
         
         try {
             // Verificar y eliminar

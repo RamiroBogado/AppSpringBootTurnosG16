@@ -50,6 +50,12 @@ public class ViewRouteHelper {
 	public static final String LOCALIDAD_INDEX = "localidad/index";
 	public static final String LOCALIDAD_REGISTER = "localidad/register";
 	public static final String LOCALIDAD_FORM = "localidad/form";
+
+	/**** SERVICIO ****/
+	public static final String SERVICIO_INDEX = "servicio/index";
+	public static final String SERVICIO_REGISTER = "servicio/register";
+	public static final String SERVICIO_FORM = "servicio/form";
+
 }
 
 
